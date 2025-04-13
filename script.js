@@ -40,9 +40,11 @@ document.addEventListener("DOMContentLoaded", () => {
             const title = document.createElement("h3");
             title.textContent = item.title;
         
-            const currentBidEl = document.createElement("p");
-            currentBidEl.id = `bid-${item.id}`;
-            currentBidEl.innerText = `Current Bid: $${item.current_bid}`;
+            const priceInfo = document.createElement("div");
+            priceInfo.innerHTML = `
+                <p><strong>Starting Bid:</strong> $${item.starting_bid}</p>
+                <p id="bid-${item.id}"><strong>Current Bid:</strong> $${item.current_bid}</p>
+            `;
         
             const input = document.createElement("input");
             input.type = "number";
@@ -56,10 +58,10 @@ document.addEventListener("DOMContentLoaded", () => {
         
             card.appendChild(img);
             card.appendChild(title);
-            card.appendChild(currentBidEl);
+            card.appendChild(priceInfo);
             card.appendChild(input);
             card.appendChild(button);
-        
+                    
             container.appendChild(card);
         
             // Render bid history under each card
