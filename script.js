@@ -9,34 +9,34 @@ document.addEventListener("DOMContentLoaded", () => {
   
 // 📦 Load items from Supabase and render them
 async function loadItems() {
-const { data, error } = await supabase.from("items").select("*");
+    const { data, error } = await supabase.from("items").select("*");
 
-if (error) {
-    console.error("Error loading items:", error);
-    alert("❌ Failed to load auction items.");
-    return;
-}
+    if (error) {
+        console.error("Error loading items:", error);
+        alert("❌ Failed to load auction items.");
+        return;
+    }
 
-renderItems(data);
+    renderItems(data);
 }
   
 // 🎨 Render auction items to the page
 function renderItems(items) {
-const container = document.getElementById("items-container");
-container.innerHTML = ""; // Clear old items if reloading
+    const container = document.getElementById("items-container");
+    container.innerHTML = ""; // Clear old items if reloading
 
-items.forEach(item => {
-    const card = document.createElement("div");
-    card.className = "item-card";
-    card.innerHTML = `
-    <img src="${item.image_url}" alt="${item.title}">
-    <h3>${item.title}</h3>
-    <p id="bid-${item.id}">Current Bid: $${item.current_bid}</p>
-    <input type="number" id="input-${item.id}" placeholder="Enter your bid" />
-    <button class="bid-btn" onclick="placeBid(${item.id})">Place Bid</button>
-    `;
-    container.appendChild(card);
-});
+    items.forEach(item => {
+        const card = document.createElement("div");
+        card.className = "item-card";
+        card.innerHTML = `
+            <img src="${item.image_url}" alt="${item.title}">
+            <h3>${item.title}</h3>
+            <p id="bid-${item.id}">Current Bid: $${item.current_bid}</p>
+            <input type="number" id="input-${item.id}" placeholder="Enter your bid" />
+            <button class="bid-btn" onclick="placeBid(${item.id})">Place Bid</button>
+        `;
+        container.appendChild(card);
+    });
 }
 
 // Expose this function globally
