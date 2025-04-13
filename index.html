@@ -6,6 +6,15 @@
     <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+    <div id="auth-container">
+        <h3>Login or Sign Up</h3>
+        <input type="email" id="auth-email" placeholder="Email" />
+        <input type="password" id="auth-password" placeholder="Password" />
+        <button onclick="signUp()">Sign Up</button>
+        <button onclick="signIn()">Login</button>
+        <button onclick="signOut()">Logout</button>
+        <p id="auth-status"></p>
+    </div>
     <h1>Items for Sale</h1>
     <div id="items-container" class="items-grid"></div>
 
