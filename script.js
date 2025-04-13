@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Expose supabase + placeBid globally if needed
     window.supabase = supabase;
 
-    async function signUp() {
+    window.signUp = async function() {
         const email = document.getElementById("auth-email").value;
         const password = document.getElementById("auth-password").value;
         const { error } = await supabase.auth.signUp({ email, password });
@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
       
-    async function signIn() {
+    window.signIn = async function() {
         const email = document.getElementById("auth-email").value;
         const password = document.getElementById("auth-password").value;
         const { error } = await supabase.auth.signInWithPassword({ email, password });
@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
     
-    async function signOut() {
+    window.signOut = async function() {
         await supabase.auth.signOut();
             updateAuthStatus();
     }
@@ -153,7 +153,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const {
             data: { user }
         } = await supabase.auth.getUser();
-        
+
         if (user) {
             console.log("Signed in.")
         }
