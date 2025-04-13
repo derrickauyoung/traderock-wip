@@ -82,6 +82,9 @@ document.addEventListener("DOMContentLoaded", () => {
         
             const title = document.createElement("h3");
             title.textContent = item.title;
+
+            const desc = document.createElement("div");
+            desc.textContent = item.description;
         
             const priceInfo = document.createElement("div");
 
@@ -110,6 +113,7 @@ document.addEventListener("DOMContentLoaded", () => {
         
             card.appendChild(img);
             card.appendChild(title);
+            card.appendChild(desc);
             card.appendChild(priceInfo);
             card.appendChild(input);
             card.appendChild(button);
