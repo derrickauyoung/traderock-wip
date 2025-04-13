@@ -47,10 +47,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     updateAuthStatus();
 
-    const {
-        data: { user }
-    } = await supabase.auth.getUser();
-
     // ⚙️ Run after the page loads
     loadItems();
   
@@ -154,6 +150,10 @@ document.addEventListener("DOMContentLoaded", () => {
         const inputEl = document.getElementById(`input-${id}`);
         const bidValue = parseFloat(inputEl.value);
 
+        const {
+            data: { user }
+        } = await supabase.auth.getUser();
+        
         if (user) {
             console.log("Signed in.")
         }
