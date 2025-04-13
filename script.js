@@ -1,24 +1,19 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const items = [
-    {
-        id: 1,
-        title: "2x Meluka Bedside Tables",
-        image: "images/bedside.jpeg",
-        currentBid: 250
-    },
-    {
-        id: 2,
-        title: "Chesty Boy 2 Bay x 4 Drawer Chest of Drawers",
-        image: "images/chestofdrawers.jpeg",
-        currentBid: 1000
-    },
-    {
-        id: 3,
-        title: "2x Grotime Rollover Beds (cot to single/toddler/day bed)",
-        image: "images/grotimebed.jpeg",
-        currentBid: 500
+const SUPABASE_URL = 'https://napmuiqctvbegldujfbb.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5hcG11aXFjdHZiZWdsZHVqZmJiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQ1MzQ1NzYsImV4cCI6MjA2MDExMDU3Nn0.U4SPKOZNpnhhTUzYdiRP_t8O0cAWKrefFrN_ic7jQ6g';
+const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+async function loadItems() {
+    const { data, error } = await supabase.from("items").select("*");
+    if (error) {
+      console.error("Error loading items:", error);
+      return;
     }
-    ];
+  
+    renderItems(data);
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    const items = loadItems();
 
     const container = document.getElementById("items-container");
 
@@ -36,23 +31,40 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // Expose this function globally
-    window.placeBid = function(id) {
-        const item = items.find(i => i.id === id);
+    window.placeBid = async function(id) {
         const inputEl = document.getElementById(`input-${id}`);
         const bidValue = parseFloat(inputEl.value);
-
+      
         if (isNaN(bidValue)) {
-            alert("Please enter a valid number.");
-            return;
+          alert("❌ Please enter a valid number.");
+          return;
         }
-
-        if (bidValue > item.currentBid) {
-            item.currentBid = bidValue;
-            document.getElementById(`bid-${id}`).innerText = `Current Bid: $${item.currentBid}`;
-            alert("Bid placed successfully!");
-            inputEl.value = "";
-        } else {
-            alert("Your bid must be higher than the current bid.");
+      
+        // Get current item info from the DOM
+        const currentBidEl = document.getElementById(`bid-${id}`);
+        const currentBidText = currentBidEl.innerText;
+        const currentBid = parseFloat(currentBidText.replace("Current Bid: $", ""));
+      
+        if (bidValue <= currentBid) {
+          alert("🚫 Your bid must be higher than the current bid.");
+          return;
         }
-    };
+      
+        // Update bid in Supabase
+        const { error } = await supabase
+          .from("items")
+          .update({ current_bid: bidValue })
+          .eq("id", id);
+      
+        if (error) {
+          console.error("Error updating bid:", error);
+          alert("❌ Something went wrong. Try again.");
+          return;
+        }
+      
+        // Update UI
+        currentBidEl.innerText = `Current Bid: $${bidValue}`;
+        inputEl.value = "";
+        alert("✅ Bid placed successfully!");
+      };
 });
