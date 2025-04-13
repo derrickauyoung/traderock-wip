@@ -36,22 +36,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Expose this function globally
     window.placeBid = function(id) {
-    const item = items.find(i => i.id === id);
-    const inputEl = document.getElementById(`input-${id}`);
-    const bidValue = parseFloat(inputEl.value);
+        const item = items.find(i => i.id === id);
+        const inputEl = document.getElementById(`input-${id}`);
+        const bidValue = parseFloat(inputEl.value);
 
-    if (isNaN(bidValue)) {
-        alert("Please enter a valid number.");
-        return;
-    }
+        if (isNaN(bidValue)) {
+            alert("Please enter a valid number.");
+            return;
+        }
 
-    if (bidValue > item.currentBid) {
-        item.currentBid = bidValue;
-        document.getElementById(`bid-${id}`).innerText = `Current Bid: $${item.currentBid}`;
-        alert("✅ Bid placed successfully!");
-        inputEl.value = "";
-    } else {
-        alert("🚫 Your bid must be higher than the current bid.");
-    }
+        if (bidValue > item.currentBid) {
+            item.currentBid = bidValue;
+            document.getElementById(`bid-${id}`).innerText = `Current Bid: $${item.currentBid}`;
+            alert("Bid placed successfully!");
+            inputEl.value = "";
+        } else {
+            alert("Your bid must be higher than the current bid.");
+        }
     };
 });
