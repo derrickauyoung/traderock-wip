@@ -44,10 +44,19 @@ document.addEventListener("DOMContentLoaded", () => {
             title.textContent = item.title;
         
             const priceInfo = document.createElement("div");
-            priceInfo.innerHTML = `
-                <p><strong>Starting Bid:</strong> $${item.starting_bid}</p>
-                <p id="bid-${item.id}"><strong>Current Bid:</strong> $${item.current_bid}</p>
-            `;
+
+            const startingBidText = `<p><strong>Starting Bid:</strong> $${item.starting_bid}</p>`;
+
+            const currentBid = item.current_bid ?? item.starting_bid;
+
+            let currentBidText = "";
+            if (item.current_bid !== null && currentBid !== item.starting_bid) {
+                currentBidText = `<p id="bid-${item.id}"><strong>Current Bid:</strong> $${currentBid}</p>`;
+            } else {
+                currentBidText = `<p id="bid-${item.id}"></p>`; // empty element for consistent updating later
+            }
+
+            priceInfo.innerHTML = startingBidText + currentBidText;
         
             const input = document.createElement("input");
             input.type = "number";
