@@ -41,6 +41,9 @@ document.addEventListener("DOMContentLoaded", () => {
             container.appendChild(card);
 
             renderBidHistory(item.id, card);
+
+            card.className = "item-card";
+            card.setAttribute("data-id", item.id);
         });
     }
 
@@ -101,7 +104,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         
         // Update UI
-        currentBidEl.innerText = `Current Bid: $${bidValue}`;
+        await loadItems(); // Reload all items from Supabase
         inputEl.value = "";
         alert("✅ Bid placed successfully!");
 
@@ -110,5 +113,10 @@ document.addEventListener("DOMContentLoaded", () => {
             amount: bidValue,
             bidder_name: "Anonymous" // Later we can replace this with real usernames
         }]);
+
+        const itemCard = document.querySelector(`.item-card[data-id="${id}"]`);
+        const oldHistory = itemCard.querySelector(".bid-history");
+        if (oldHistory) oldHistory.remove(); // remove old list
+        await renderBidHistory(id, itemCard); // re-render new list
     };
 });
