@@ -85,7 +85,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const desc = document.createElement("div");
             desc.className = "item-desc";
-            desc.textContent = item.description;
+            if (item.description !== null) {
+                desc.textContent = item.description;
+            }
         
             const priceInfo = document.createElement("div");
 
