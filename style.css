@@ -29,6 +29,14 @@ body {
     font-size: 1.2em;
 }
 
+.item-card p {
+    margin: 4px 0;
+}
+
+.item-card strong {
+    color: #333;
+}
+
 .bid-btn {
     margin-top: 10px;
     padding: 8px 12px;
