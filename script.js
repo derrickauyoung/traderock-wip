@@ -83,7 +83,8 @@ document.addEventListener("DOMContentLoaded", () => {
             const title = document.createElement("h3");
             title.textContent = item.title;
 
-            const desc = document.createElement("p");
+            const desc = document.createElement("div");
+            desc.className = "item-desc";
             desc.textContent = item.description;
         
             const priceInfo = document.createElement("div");
