@@ -38,3 +38,13 @@ body {
     border-radius: 4px;
     cursor: pointer;
 }
+
+input[type="number"] {
+    width: 100%;
+    padding: 6px;
+    margin-top: 10px;
+    font-size: 1em;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
