@@ -47,6 +47,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     updateAuthStatus();
 
+    const {
+        data: { user }
+    } = await supabase.auth.getUser();
+
     // ⚙️ Run after the page loads
     loadItems();
   
@@ -149,6 +153,14 @@ document.addEventListener("DOMContentLoaded", () => {
     window.placeBid = async function(id) {
         const inputEl = document.getElementById(`input-${id}`);
         const bidValue = parseFloat(inputEl.value);
+
+        if (user) {
+            console.log("Signed in.")
+        }
+        else {
+            alert("❌ Please sign up or log in.");
+            return;
+        }
         
         if (isNaN(bidValue)) {
             alert("❌ Please enter a valid number.");
@@ -182,10 +194,6 @@ document.addEventListener("DOMContentLoaded", () => {
         inputEl.value = "";
         alert("✅ Bid placed successfully!");
 
-        const {
-            data: { user }
-        } = await supabase.auth.getUser();
-          
         await supabase.from("bids").insert([{
             item_id: id,
             amount: bidValue,
