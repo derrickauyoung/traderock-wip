@@ -26,24 +26,44 @@ document.addEventListener("DOMContentLoaded", () => {
     // 🎨 Render auction items to the page
     function renderItems(items) {
         const container = document.getElementById("items-container");
-        container.innerHTML = ""; // Clear old items if reloading
-
+        container.innerHTML = ""; // Clear old items
+      
         items.forEach(item => {
             const card = document.createElement("div");
             card.className = "item-card";
-            card.innerHTML = `
-                <img src="${item.image_url}" alt="${item.title}">
-                <h3>${item.title}</h3>
-                <p id="bid-${item.id}">Current Bid: $${item.current_bid}</p>
-                <input type="number" id="input-${item.id}" placeholder="Enter your bid" />
-                <button class="bid-btn" onclick="placeBid(${item.id})">Place Bid</button>
-            `;
-            container.appendChild(card);
-
-            renderBidHistory(item.id, card);
-
-            card.className = "item-card";
             card.setAttribute("data-id", item.id);
+        
+            const img = document.createElement("img");
+            img.src = item.image_url;
+            img.alt = item.title;
+        
+            const title = document.createElement("h3");
+            title.textContent = item.title;
+        
+            const currentBidEl = document.createElement("p");
+            currentBidEl.id = `bid-${item.id}`;
+            currentBidEl.innerText = `Current Bid: $${item.current_bid}`;
+        
+            const input = document.createElement("input");
+            input.type = "number";
+            input.placeholder = "Enter your bid";
+            input.id = `input-${item.id}`;
+        
+            const button = document.createElement("button");
+            button.className = "bid-btn";
+            button.textContent = "Place Bid";
+            button.onclick = () => placeBid(item.id);
+        
+            card.appendChild(img);
+            card.appendChild(title);
+            card.appendChild(currentBidEl);
+            card.appendChild(input);
+            card.appendChild(button);
+        
+            container.appendChild(card);
+        
+            // Render bid history under each card
+            renderBidHistory(item.id, card);
         });
     }
 
