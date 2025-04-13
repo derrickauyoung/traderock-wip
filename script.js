@@ -85,9 +85,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const desc = document.createElement("div");
             desc.className = "item-desc";
-            if (item.description !== null) {
-                desc.textContent = item.description;
-            }
+            desc.textContent = item.description;
         
             const priceInfo = document.createElement("div");
 
@@ -116,7 +114,9 @@ document.addEventListener("DOMContentLoaded", () => {
         
             card.appendChild(img);
             card.appendChild(title);
-            card.appendChild(desc);
+            if (item.description !== null) {
+                card.appendChild(desc);
+            }
             card.appendChild(priceInfo);
             card.appendChild(input);
             card.appendChild(button);
