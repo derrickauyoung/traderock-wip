@@ -3,19 +3,19 @@ const items = [
 {
     id: 1,
     title: "2x Meluka Bedside Tables",
-    image: "https://drive.usercontent.google.com/download?id=1J-l9GiFHcZdSjiXXvUCK0ksbdFq4aFDZ",
+    image: "https://drive.google.com/uc?export=view&id=1J-l9GiFHcZdSjiXXvUCK0ksbdFq4aFDZ",
     currentBid: 250
 },
 {
     id: 2,
     title: "Chesty Boy 2 Bay x 4 Drawer Chest of Drawers",
-    image: "https://drive.usercontent.google.com/download?id=1uRj1eroNQ6S4eGf3q9iGtyVo3tgiJUjX",
+    image: "https://drive.google.com/uc?export=view&id=1uRj1eroNQ6S4eGf3q9iGtyVo3tgiJUjX",
     currentBid: 1000
 },
 {
     id: 3,
     title: "2x Grotime Rollover Beds (cot to single/toddler/day bed)",
-    image: "https://drive.usercontent.google.com/download?id=14LTul4f4Py-qkspMKvs6q7PngeBaFZ2e",
+    image: "https://drive.google.com/uc?export=view&id=14LTul4f4Py-qkspMKvs6q7PngeBaFZ2e",
     currentBid: 500
 }
 ];
@@ -35,5 +35,5 @@ items.forEach(item => {
 });
 
 function placeBid(id) {
-alert(`You placed a bid on item #${id}!`);
+    alert(`You placed a bid on item #${id}!`);
 }
