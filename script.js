@@ -1,5 +1,45 @@
 document.addEventListener("DOMContentLoaded", () => {
 
+    async function signUp() {
+        const email = document.getElementById("auth-email").value;
+        const password = document.getElementById("auth-password").value;
+        const { error } = await supabase.auth.signUp({ email, password });
+        if (error) {
+          alert("Sign Up Error: " + error.message);
+        } else {
+          alert("Check your email to confirm your account!");
+        }
+    }
+      
+    async function signIn() {
+        const email = document.getElementById("auth-email").value;
+        const password = document.getElementById("auth-password").value;
+        const { error } = await supabase.auth.signInWithPassword({ email, password });
+        if (error) {
+            alert("Login Error: " + error.message);
+        } else {
+            updateAuthStatus();
+        }
+    }
+    
+    async function signOut() {
+        await supabase.auth.signOut();
+            updateAuthStatus();
+    }
+    
+    async function updateAuthStatus() {
+        const { data: { user } } = await supabase.auth.getUser();
+        const statusEl = document.getElementById("auth-status");
+        
+        if (user) {
+            statusEl.textContent = `Logged in as ${user.email}`;
+        } else {
+            statusEl.textContent = "Not logged in";
+        }
+    }
+
+    updateAuthStatus();
+
     const SUPABASE_URL = 'https://napmuiqctvbegldujfbb.supabase.co';
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5hcG11aXFjdHZiZWdsZHVqZmJiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQ1MzQ1NzYsImV4cCI6MjA2MDExMDU3Nn0.U4SPKOZNpnhhTUzYdiRP_t8O0cAWKrefFrN_ic7jQ6g';
     const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -142,10 +182,15 @@ document.addEventListener("DOMContentLoaded", () => {
         inputEl.value = "";
         alert("✅ Bid placed successfully!");
 
+        const {
+            data: { user }
+        } = await supabase.auth.getUser();
+          
         await supabase.from("bids").insert([{
             item_id: id,
             amount: bidValue,
-            bidder_name: "Anonymous" // Later we can replace this with real usernames
+            bidder_name: user?.email || "Anonymous", // or store user.id instead
+            user_id: user?.id // if you want to add that to your bids table
         }]);
 
         const itemCard = document.querySelector(`.item-card[data-id="${id}"]`);
