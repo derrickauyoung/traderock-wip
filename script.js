@@ -12,7 +12,10 @@ document.addEventListener("DOMContentLoaded", () => {
   
     // 📦 Load items from Supabase and render them
     async function loadItems() {
-        const { data, error } = await supabase.from("items").select("*");
+        const { data, error } = await supabase
+            .from("items")
+            .select("*")
+            .order("id", { ascending: true });
 
         if (error) {
             console.error("Error loading items:", error);
@@ -61,7 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
             card.appendChild(priceInfo);
             card.appendChild(input);
             card.appendChild(button);
-                    
+
             container.appendChild(card);
         
             // Render bid history under each card
