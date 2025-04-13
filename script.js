@@ -28,7 +28,8 @@ document.addEventListener("DOMContentLoaded", () => {
         card.innerHTML = `
             <img src="${item.image}" alt="${item.title}">
             <h3>${item.title}</h3>
-            <p>Current Bid: $${item.currentBid}</p>
+            <p id="bid-${item.id}">Current Bid: $${item.currentBid}</p>
+            <input type="number" id="input-${item.id}" placeholder="Enter your bid" />
             <button class="bid-btn" onclick="placeBid(${item.id})">Place Bid</button>
         `;
         container.appendChild(card);
