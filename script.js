@@ -10,13 +10,13 @@ const items = [
     id: 2,
     title: "Chesty Boy 2 Bay x 4 Drawer Chest of Drawers",
     image: "https://drive.usercontent.google.com/download?id=1uRj1eroNQ6S4eGf3q9iGtyVo3tgiJUjX",
-    currentBid: 90
+    currentBid: 1000
 },
 {
     id: 3,
     title: "2x Grotime Rollover Beds (cot to single/toddler/day bed)",
     image: "https://drive.usercontent.google.com/download?id=14LTul4f4Py-qkspMKvs6q7PngeBaFZ2e",
-    currentBid: 120
+    currentBid: 500
 }
 ];
 
