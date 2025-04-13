@@ -39,7 +39,33 @@ document.addEventListener("DOMContentLoaded", () => {
                 <button class="bid-btn" onclick="placeBid(${item.id})">Place Bid</button>
             `;
             container.appendChild(card);
+
+            renderBidHistory(item.id, card);
         });
+    }
+
+    async function renderBidHistory(itemId, container) {
+        const { data: bids, error } = await supabase
+          .from("bids")
+          .select("*")
+          .eq("item_id", itemId)
+          .order("created_at", { ascending: false });
+      
+        if (error) {
+          console.error("Failed to load bid history:", error);
+          return;
+        }
+      
+        const list = document.createElement("ul");
+        list.className = "bid-history";
+      
+        bids.forEach(bid => {
+          const li = document.createElement("li");
+          li.textContent = `$${bid.amount} by ${bid.bidder_name || "Anonymous"} on ${new Date(bid.created_at).toLocaleString()}`;
+          list.appendChild(li);
+        });
+      
+        container.appendChild(list);
     }
 
     // Expose this function globally
@@ -78,5 +104,11 @@ document.addEventListener("DOMContentLoaded", () => {
         currentBidEl.innerText = `Current Bid: $${bidValue}`;
         inputEl.value = "";
         alert("✅ Bid placed successfully!");
+
+        await supabase.from("bids").insert([{
+            item_id: id,
+            amount: bidValue,
+            bidder_name: "Anonymous" // Later we can replace this with real usernames
+        }]);
     };
 });
