@@ -124,9 +124,9 @@ document.addEventListener("DOMContentLoaded", () => {
             end_date_text = `<p><strong>Auction ended:</strong> $${item.end_date}</p>`;
             end_date.innerHTML = end_date_text;
 
-            console.info("End date: ", item.end_date.timestamp);
+            console.info("End date: ", item.end_date.Timestamp);
             console.info("Now: ", Date.now());
-            if (item.end_date.timestamp > Date.now()) {
+            if (item.end_date.Timestamp > Date.now()) {
                 card.appendChild(button);
             }
             else {
