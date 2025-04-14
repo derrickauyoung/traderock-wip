@@ -172,7 +172,7 @@ document.addEventListener("DOMContentLoaded", () => {
             // Check if end date is past
             const end_date = document.createElement("div");
             end_date.className = "end-date";
-            end_date_text = `<p><strong>Auction ended:</strong> ${item.end_date}</p>`;
+            const end_date_text = `<p><strong>Auction ended:</strong> ${item.end_date}</p>`;
             end_date.innerHTML = end_date_text;
 
             const timestamptzMillis = new Date(item.end_date).getTime();
