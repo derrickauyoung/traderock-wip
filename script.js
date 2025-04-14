@@ -117,7 +117,21 @@ document.addEventListener("DOMContentLoaded", () => {
             }
             card.appendChild(priceInfo);
             card.appendChild(input);
-            card.appendChild(button);
+
+            // Check if end date is past
+            const end_date = document.createElement("div");
+            end_date.className = "end-date";
+            end_date_text = `<p><strong>Auction ended:</strong> $${item.end_date}</p>`;
+            end_date.innerHTML = end_date_text;
+
+            console.info("End date: ", item.end_date);
+            console.info("Now: ", Date.now());
+            if (item.end_date.timestamp > Date.now()) {
+                card.appendChild(button);
+            }
+            else {
+                card.append(end_date);
+            }
 
             container.appendChild(card);
         
