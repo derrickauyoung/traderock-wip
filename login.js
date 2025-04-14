@@ -7,7 +7,7 @@ supabase.auth.getSession().then(({ data: { session } }) => {
     }
 });
 
-async function handleLogin() {
+window.handleLogin = async function() {
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
     const { error } = await supabase.auth.signInWithPassword({ email, password });
