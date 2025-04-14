@@ -11,15 +11,15 @@
     // 🟡 Handle login via URL token (e.g., after email confirmation)
     supabase.auth.getSession().then(({ data: { session } }) => {
         if (!session) {
-        supabase.auth.getSessionFromUrl().then(({ data, error }) => {
-            if (error) {
-            console.error("Auth error:", error.message);
-            } else {
-            // Session is restored!
-            console.log("User signed in from confirmation link:", data.session);
-            window.location.href = "index.html"; // reload or route to homepage
-            }
-        });
+            supabase.auth.getSessionFromUrl().then(({ data, error }) => {
+                if (error) {
+                    console.error("Auth error:", error.message);
+                } else {
+                    // Session is restored!
+                    console.log("User signed in from confirmation link:", data.session);
+                    window.location.href = "index.html"; // reload or route to homepage
+                }
+            });
         }
     });
 </script>
@@ -30,7 +30,7 @@
 </head>
 <body>
     <div id="auth-container">
-        <h3>Welcome to Traderock!</h3>
+        <h3>Welcome to traderock.</h3>
         <button onclick="signOut()">Logout</button>
         <p id="auth-status"></p>
     </div>
