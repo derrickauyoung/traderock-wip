@@ -55,7 +55,12 @@ document.addEventListener("DOMContentLoaded", () => {
     window.history.replaceState({}, document.title, window.location.pathname);
 
     // ⚙️ Run after the page loads
-    loadItems();
+    if (session) {
+        loadItems();
+    }
+    else {
+        return;
+    }
   
     // 📦 Load items from Supabase and render them
     async function loadItems() {
