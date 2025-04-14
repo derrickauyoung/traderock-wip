@@ -51,6 +51,9 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
     
+    // Remove the hash fragment after login
+    window.history.replaceState({}, document.title, window.location.pathname);
+
     // ⚙️ Run after the page loads
     loadItems();
   
