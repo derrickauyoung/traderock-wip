@@ -1,3 +1,10 @@
+import {
+    nextImage,
+    prevImage,
+    itemGalleryImages,
+    itemGalleryIndex
+} from './gallery.js';
+
 document.addEventListener("DOMContentLoaded", () => {
 
     const SUPABASE_URL = 'https://napmuiqctvbegldujfbb.supabase.co';
@@ -91,9 +98,31 @@ document.addEventListener("DOMContentLoaded", () => {
             card.className = "item-card";
             card.setAttribute("data-id", item.id);
         
+            const imgGallery = document.createElement("div");
+            imgGallery.className = "item-gallery"
+            imgGallery.setAttribute("data-id", item.id);
+            //img.src = item.image_url;
+            //img.alt = item.title;
+            const firstImage = item.image_urls?.[0] || item.image_url;
+
+            const prevButton = document.createElement("button");
+            prevButton.className = "prev-btn";
+            prevButton.textContent = "<";
+            prevButton.onclick = () => prevImage(item.id);
+
             const img = document.createElement("img");
-            img.src = item.image_url;
+            img.src = firstImage
             img.alt = item.title;
+            img.id = item.id;
+
+            const nextButton = document.createElement("button");
+            prevButton.className = "next-btn";
+            prevButton.textContent = ">";
+            prevButton.onclick = () => nextImage(item.id);
+
+            imgGallery.appendChild(prevButton)
+            imgGallery.appendChild(img)
+            imgGallery.appendChild(nextButton)
         
             const title = document.createElement("h3");
             title.textContent = item.title;
