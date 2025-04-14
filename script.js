@@ -37,7 +37,8 @@ document.addEventListener("DOMContentLoaded", () => {
     
     window.signOut = async function() {
         await supabase.auth.signOut();
-            updateAuthStatus();
+        updateAuthStatus();
+        window.location.href = "login.html";
     }
     
     window.updateAuthStatus = async function() {
