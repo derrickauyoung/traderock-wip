@@ -113,16 +113,20 @@ document.addEventListener("DOMContentLoaded", () => {
             const img = document.createElement("img");
             img.src = firstImage
             img.alt = item.title;
-            img.id = item.id;
+            img.id = `img-${item.id}`;
 
             const nextButton = document.createElement("button");
             nextButton.className = "next-btn";
             nextButton.textContent = ">";
             nextButton.onclick = () => nextImage(item.id);
 
-            imgGallery.appendChild(prevButton)
             imgGallery.appendChild(img)
-            imgGallery.appendChild(nextButton)
+
+            const imgGalleryBtns = document.createElement("div");
+            imgGalleryBtns.appendChild(prevButton)
+            imgGalleryBtns.appendChild(nextButton)
+
+            imgGallery.appendChild(imgGalleryBtns)
         
             const title = document.createElement("h3");
             title.textContent = item.title;
