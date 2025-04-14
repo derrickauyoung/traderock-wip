@@ -1,6 +1,6 @@
 (async () => {
     const hash = window.location.hash;
-
+    const error = "";
     if (hash.includes("access_token")) {
         const params = new URLSearchParams(hash.substring(1));
         const { data, error } = await supabase.auth.setSession({
