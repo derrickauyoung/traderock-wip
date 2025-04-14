@@ -13,7 +13,7 @@
         console.error("Error restoring session:", error.message);
     } else {
         console.log("Session restored!");
-        updateAuthStatus();
+        window.updateAuthStatus();
     }
 
     window.history.replaceState({}, document.title, window.location.pathname);
