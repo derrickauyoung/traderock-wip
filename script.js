@@ -20,7 +20,8 @@ document.addEventListener("DOMContentLoaded", () => {
         if (error) {
           alert("Sign Up Error: " + error.message);
         } else {
-          alert("Check your email to confirm your account!");
+          alert("Successfully created account, logging in!");
+          signIn();
         }
     }
       
@@ -53,7 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     
     updateAuthStatus();
-    
+
     // Remove the hash fragment after login
     window.history.replaceState({}, document.title, window.location.pathname);
 
