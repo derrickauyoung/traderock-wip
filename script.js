@@ -55,7 +55,7 @@ document.addEventListener("DOMContentLoaded", () => {
             updateAuthStatus();
     }
     
-    async function updateAuthStatus() {
+    window.updateAuthStatus = async function() {
         const { data: { user } } = await supabase.auth.getUser();
         const statusEl = document.getElementById("auth-status");
         
