@@ -1,4 +1,10 @@
 // render.js
+import {
+    nextImage,
+    prevImage,
+    itemGalleryImages,
+    itemGalleryIndex
+} from './gallery.js';
 
 export function renderItem(item) {
     const card = document.createElement("div");

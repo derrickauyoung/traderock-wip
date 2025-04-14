@@ -1,10 +1,3 @@
-import {
-    nextImage,
-    prevImage,
-    itemGalleryImages,
-    itemGalleryIndex
-} from './gallery.js';
-
 import { renderItems } from './render.js';
 
 document.addEventListener("DOMContentLoaded", () => {
