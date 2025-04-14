@@ -20,6 +20,7 @@ const supabase = window.supabase.createClient(
     if (error) {
       err.textContent = error.message;
     } else {
-      msg.textContent = "Check your email to confirm your account!";
+      msg.textContent = "Successfully created account!";
+      window.location.href = "index.html";
     }
 }
