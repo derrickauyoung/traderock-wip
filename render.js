@@ -6,6 +6,7 @@ import {
     itemGalleryImages,
     itemGalleryIndex
 } from './gallery.js';
+import { renderBidHistory } from './bidHistory.js';
 
 export function renderItem(container, item) {
     const card = document.createElement("div");
@@ -135,6 +136,16 @@ export function renderItem(container, item) {
             alert("🚫 Your bid must be higher than the current bid.");
             return;
         }
+
+        const bidder = user?.email
+        if (bidder) {
+            console.log("User email:", bidder);
+        }
+        else {
+            console.error("Problem retrieving user email.");
+            alert("❌ Please sign up or log in.");
+            return;
+        }
         
         // Update bid in Supabase
         const { error } = await supabase
@@ -148,27 +159,16 @@ export function renderItem(container, item) {
             return;
         }
         
-        // Update UI
-        await loadItems(); // Reload all items from Supabase
-        inputEl.value = "";
-        alert("✅ Bid placed successfully!");
-
-        const bidder = user?.email
-        if (bidder) {
-            console.log("User email:", bidder);
-        }
-        else {
-            console.error("Problem retrieving user email.");
-            alert("❌ Please sign up or log in.");
-            return;
-        }
-        
         await supabase.from("bids").insert([{
             item_id: id,
             amount: bidValue,
             bidder_name: bidder,
             user_id: user?.id // if you want to add that to your bids table
         }]);
+        
+        // Update UI
+        inputEl.value = "";
+        alert("✅ Bid placed successfully!");
     };
 
     return card;
