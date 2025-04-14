@@ -72,7 +72,7 @@ export function renderItem(container, item) {
     const button = document.createElement("button");
     button.className = "bid-btn";
     button.textContent = "Place Bid";
-    button.onclick = () => placeBid(item.id);
+    button.onclick = () => window.placeBid(item.id);
 
     card.appendChild(imgGallery);
 
