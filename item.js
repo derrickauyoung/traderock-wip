@@ -28,10 +28,12 @@ async function loadItem() {
     }
 
     container.innerHTML = ""; // Clear old items
+    const containerdiv = document.createElement("div");
     const homebtn = document.createElement("button");
     homebtn.textContent = "Go back"
     homebtn.onclick = () => window.location.href = "index.html";
-    container.appendChild(homebtn)
+    containerdiv.appendChild(homebtn)
+    container.appendChild(containerdiv)
     const card = renderItem(container, item);
 
     // Render bid history under each card
