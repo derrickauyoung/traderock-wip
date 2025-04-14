@@ -1,3 +1,24 @@
+(async () => {
+    const hash = window.location.hash;
+
+    if (hash.includes("access_token")) {
+        const params = new URLSearchParams(hash.substring(1));
+        const { data, error } = await supabase.auth.setSession({
+            access_token: params.get("access_token"),
+            refresh_token: params.get("refresh_token")
+        });
+    }
+
+    if (error) {
+        console.error("Error restoring session:", error.message);
+    } else {
+        console.log("Session restored!");
+        updateAuthStatus();
+    }
+
+    window.history.replaceState({}, document.title, window.location.pathname);
+})();
+
 document.addEventListener("DOMContentLoaded", () => {
 
     const SUPABASE_URL = 'https://napmuiqctvbegldujfbb.supabase.co';
@@ -44,27 +65,6 @@ document.addEventListener("DOMContentLoaded", () => {
             statusEl.textContent = "Not logged in";
         }
     }
-
-    const hash = window.location.hash;
-
-    if (hash.includes("access_token")) {
-        const params = new URLSearchParams(hash.substring(1));
-        const { data, error } = await supabase.auth.setSession({
-            access_token: params.get("access_token"),
-            refresh_token: params.get("refresh_token")
-        });
-    }
-
-    if (error) {
-        console.error("Error restoring session:", error.message);
-    } else {
-        console.log("Session restored!");
-        updateAuthStatus();
-    }
-
-    window.history.replaceState({}, document.title, window.location.pathname);
-    
-    updateAuthStatus();
 
     // ⚙️ Run after the page loads
     loadItems();
