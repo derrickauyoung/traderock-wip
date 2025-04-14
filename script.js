@@ -87,6 +87,107 @@ document.addEventListener("DOMContentLoaded", () => {
 
         renderItems(data);
     }
+
+    window.renderItem = async function(item) {
+        const card = document.createElement("div");
+        card.className = "item-card";
+        card.setAttribute("data-id", item.id);
+    
+        const imgGallery = document.createElement("div");
+        imgGallery.className = "item-gallery"
+        imgGallery.setAttribute("data-id", item.id);
+        const firstImage = item.image_urls?.[0] || item.image_url;
+
+        const prevButton = document.createElement("button");
+        prevButton.className = "prev-btn";
+        prevButton.textContent = "<";
+        prevButton.onclick = () => prevImage(item.id);
+
+        const img = document.createElement("img");
+        img.src = firstImage
+        img.alt = item.title;
+        img.id = `img-${item.id}`;
+
+        const nextButton = document.createElement("button");
+        nextButton.className = "next-btn";
+        nextButton.textContent = ">";
+        nextButton.onclick = () => nextImage(item.id);
+
+        imgGallery.appendChild(img)
+
+        const imgGalleryBtns = document.createElement("div");
+        imgGalleryBtns.appendChild(prevButton)
+        imgGalleryBtns.appendChild(nextButton)
+
+        imgGallery.appendChild(imgGalleryBtns)
+    
+        const title = document.createElement("h3");
+        const link = document.createElement("a");
+        link.href = `item.html?id=${item.id}`;
+        link.textContent = item.title;
+        title.appendChild(link);
+
+        const desc = document.createElement("div");
+        desc.className = "item-desc";
+        desc.textContent = item.description;
+    
+        const priceInfo = document.createElement("div");
+
+        const startingBidText = `<p><strong>Starting Bid:</strong> $${item.starting_bid}</p>`;
+
+        const currentBid = item.current_bid ?? item.starting_bid;
+
+        let currentBidText = "";
+        if (item.current_bid !== null && currentBid !== item.starting_bid) {
+            currentBidText = `<p id="bid-${item.id}"><strong>Current Bid:</strong> $${currentBid}</p>`;
+        } else {
+            currentBidText = `<p id="bid-${item.id}"></p>`; // empty element for consistent updating later
+        }
+
+        priceInfo.innerHTML = startingBidText + currentBidText;
+    
+        const input = document.createElement("input");
+        input.type = "number";
+        input.placeholder = "Enter your bid";
+        input.id = `input-${item.id}`;
+    
+        const button = document.createElement("button");
+        button.className = "bid-btn";
+        button.textContent = "Place Bid";
+        button.onclick = () => placeBid(item.id);
+    
+        card.appendChild(imgGallery);
+
+        // Store current index in memory
+        itemGalleryIndex[item.id] = 0;
+        itemGalleryImages[item.id] = item.image_urls || [];
+
+        card.appendChild(title);
+        if (item.description !== null) {
+            card.appendChild(desc);
+        }
+        card.appendChild(priceInfo);
+        card.appendChild(input);
+
+        // Check if end date is past
+        const end_date = document.createElement("div");
+        end_date.className = "end-date";
+        const end_date_text = `<p><strong>Auction ended:</strong> ${item.end_date}</p>`;
+        end_date.innerHTML = end_date_text;
+
+        const timestamptzMillis = new Date(item.end_date).getTime();
+        if (timestamptzMillis > Date.now()) {
+            card.appendChild(button);
+        }
+        else {
+            card.append(end_date);
+        }
+
+        container.appendChild(card);
+    
+        // Render bid history under each card
+        renderBidHistory(item.id, card);
+    }
     
     // 🎨 Render auction items to the page
     function renderItems(items) {
@@ -94,103 +195,7 @@ document.addEventListener("DOMContentLoaded", () => {
         container.innerHTML = ""; // Clear old items
       
         items.forEach(item => {
-            const card = document.createElement("div");
-            card.className = "item-card";
-            card.setAttribute("data-id", item.id);
-        
-            const imgGallery = document.createElement("div");
-            imgGallery.className = "item-gallery"
-            imgGallery.setAttribute("data-id", item.id);
-            //img.src = item.image_url;
-            //img.alt = item.title;
-            const firstImage = item.image_urls?.[0] || item.image_url;
-
-            const prevButton = document.createElement("button");
-            prevButton.className = "prev-btn";
-            prevButton.textContent = "<";
-            prevButton.onclick = () => prevImage(item.id);
-
-            const img = document.createElement("img");
-            img.src = firstImage
-            img.alt = item.title;
-            img.id = `img-${item.id}`;
-
-            const nextButton = document.createElement("button");
-            nextButton.className = "next-btn";
-            nextButton.textContent = ">";
-            nextButton.onclick = () => nextImage(item.id);
-
-            imgGallery.appendChild(img)
-
-            const imgGalleryBtns = document.createElement("div");
-            imgGalleryBtns.appendChild(prevButton)
-            imgGalleryBtns.appendChild(nextButton)
-
-            imgGallery.appendChild(imgGalleryBtns)
-        
-            const title = document.createElement("h3");
-            title.textContent = item.title;
-
-            const desc = document.createElement("div");
-            desc.className = "item-desc";
-            desc.textContent = item.description;
-        
-            const priceInfo = document.createElement("div");
-
-            const startingBidText = `<p><strong>Starting Bid:</strong> $${item.starting_bid}</p>`;
-
-            const currentBid = item.current_bid ?? item.starting_bid;
-
-            let currentBidText = "";
-            if (item.current_bid !== null && currentBid !== item.starting_bid) {
-                currentBidText = `<p id="bid-${item.id}"><strong>Current Bid:</strong> $${currentBid}</p>`;
-            } else {
-                currentBidText = `<p id="bid-${item.id}"></p>`; // empty element for consistent updating later
-            }
-
-            priceInfo.innerHTML = startingBidText + currentBidText;
-        
-            const input = document.createElement("input");
-            input.type = "number";
-            input.placeholder = "Enter your bid";
-            input.id = `input-${item.id}`;
-        
-            const button = document.createElement("button");
-            button.className = "bid-btn";
-            button.textContent = "Place Bid";
-            button.onclick = () => placeBid(item.id);
-        
-            card.appendChild(imgGallery);
-
-            // Store current index in memory
-            itemGalleryIndex[item.id] = 0;
-            itemGalleryImages[item.id] = item.image_urls || [];
-
-            card.appendChild(title);
-            if (item.description !== null) {
-                card.appendChild(desc);
-            }
-            card.appendChild(priceInfo);
-            card.appendChild(input);
-
-            // Check if end date is past
-            const end_date = document.createElement("div");
-            end_date.className = "end-date";
-            const end_date_text = `<p><strong>Auction ended:</strong> ${item.end_date}</p>`;
-            end_date.innerHTML = end_date_text;
-
-            const timestamptzMillis = new Date(item.end_date).getTime();
-            if (timestamptzMillis > Date.now()) {
-                card.appendChild(button);
-            }
-            else {
-                card.append(end_date);
-            }
-
-            container.appendChild(card);
-        
-            // Render bid history under each card
-            renderBidHistory(item.id, card);
+            renderItem(item)
         });
     }
 
