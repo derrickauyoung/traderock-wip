@@ -30,6 +30,7 @@ async function loadItem() {
     container.innerHTML = ""; // Clear old items
     const containerdiv = document.createElement("div");
     const homebtn = document.createElement("button");
+    homebtn.className = "home-btn";
     homebtn.textContent = "Go back"
     homebtn.onclick = () => window.location.href = "index.html";
     containerdiv.appendChild(homebtn)
