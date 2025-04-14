@@ -29,6 +29,7 @@ async function loadItem() {
 
     container.innerHTML = ""; // Clear old items
     const containerdiv = document.createElement("div");
+    containerdiv.className = "home-div";
     const homebtn = document.createElement("button");
     homebtn.className = "home-btn";
     homebtn.textContent = "Go back"

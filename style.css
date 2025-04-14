@@ -58,11 +58,15 @@ body {
 .home-btn {
     margin-top: 10px;
     padding: 8px 12px;
-    background-color: #e8ebe9;
+    background-color: #1e4671;
     color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
+}
+
+.home-div {
+    padding: 2px;
 }
 
 input[type="number"] {
