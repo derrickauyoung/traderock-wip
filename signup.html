@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Sign Up</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script defer src="signup.js"></script>
+  <style>
+    body { font-family: sans-serif; display: flex; flex-direction: column; align-items: center; margin-top: 60px; }
+    input { margin: 8px 0; padding: 8px; width: 250px; }
+    button { padding: 8px 16px; }
+    #message { margin-top: 10px; color: green; }
+    #error { color: red; }
+  </style>
+</head>
+<body>
+  <h2>Create an Account</h2>
+  <input type="email" id="email" placeholder="Email" required />
+  <input type="password" id="password" placeholder="Password (6+ chars)" required />
+  <button onclick="handleSignUp()">Sign Up</button>
+
+  <p>Already have an account? <a href="login.html">Log in</a></p>
+
+  <p id="message"></p>
+  <p id="error"></p>
+</body>
+</html>
