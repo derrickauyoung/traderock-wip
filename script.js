@@ -116,9 +116,9 @@ document.addEventListener("DOMContentLoaded", () => {
             img.id = item.id;
 
             const nextButton = document.createElement("button");
-            prevButton.className = "next-btn";
-            prevButton.textContent = ">";
-            prevButton.onclick = () => nextImage(item.id);
+            nextButton.className = "next-btn";
+            nextButton.textContent = ">";
+            nextButton.onclick = () => nextImage(item.id);
 
             imgGallery.appendChild(prevButton)
             imgGallery.appendChild(img)
@@ -156,7 +156,12 @@ document.addEventListener("DOMContentLoaded", () => {
             button.textContent = "Place Bid";
             button.onclick = () => placeBid(item.id);
         
-            card.appendChild(img);
+            card.appendChild(imgGallery);
+
+            // Store current index in memory
+            itemGalleryIndex[item.id] = 0;
+            itemGalleryImages[item.id] = item.image_urls || [];
+
             card.appendChild(title);
             if (item.description !== null) {
                 card.appendChild(desc);
