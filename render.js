@@ -1,4 +1,5 @@
 // render.js
+import { supabase } from './supabaseClient.js';
 import {
     nextImage,
     prevImage,
@@ -72,7 +73,7 @@ export function renderItem(container, item) {
     const button = document.createElement("button");
     button.className = "bid-btn";
     button.textContent = "Place Bid";
-    button.onclick = () => window.placeBid(item.id);
+    button.onclick = () => placeBid(item.id);
 
     card.appendChild(imgGallery);
 
@@ -102,6 +103,73 @@ export function renderItem(container, item) {
     }
 
     container.appendChild(card);
+
+    // Expose this function globally
+    window.placeBid = async function(id) {
+        const inputEl = document.getElementById(`input-${id}`);
+        const bidValue = parseFloat(inputEl.value);
+
+        const {
+            data: { user }
+        } = await supabase.auth.getUser();
+
+        if (user) {
+            console.log("Signed in.")
+        }
+        else {
+            alert("❌ Please sign up or log in.");
+            return;
+        }
+        
+        if (isNaN(bidValue)) {
+            alert("❌ Please enter a valid number.");
+            return;
+        }
+        
+        // Get current item info from the DOM
+        const currentBidEl = document.getElementById(`bid-${id}`);
+        const currentBidText = currentBidEl.innerText;
+        const currentBid = parseFloat(currentBidText.replace("Current Bid: $", ""));
+        
+        if (bidValue <= currentBid) {
+            alert("🚫 Your bid must be higher than the current bid.");
+            return;
+        }
+        
+        // Update bid in Supabase
+        const { error } = await supabase
+            .from("items")
+            .update({ current_bid: bidValue })
+            .eq("id", id);
+        
+        if (error) {
+            console.error("Error updating bid:", error);
+            alert("❌ Something went wrong. Try again.");
+            return;
+        }
+        
+        // Update UI
+        await loadItems(); // Reload all items from Supabase
+        inputEl.value = "";
+        alert("✅ Bid placed successfully!");
+
+        const bidder = user?.email
+        if (bidder) {
+            console.log("User email:", bidder);
+        }
+        else {
+            console.error("Problem retrieving user email.");
+            alert("❌ Please sign up or log in.");
+            return;
+        }
+        
+        await supabase.from("bids").insert([{
+            item_id: id,
+            amount: bidValue,
+            bidder_name: bidder,
+            user_id: user?.id // if you want to add that to your bids table
+        }]);
+    };
 
     return card;
 }
