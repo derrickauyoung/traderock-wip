@@ -30,7 +30,7 @@ async function loadItem() {
     container.innerHTML = ""; // Clear old items
     const homebtn = document.createElement("button");
     homebtn.textContent = "Go back"
-    homebtn.onclick () => window.location.href = "index.html";
+    homebtn.onclick = () => window.location.href = "index.html";
     container.appendChild(homebtn)
     const card = renderItem(container, item);
 
