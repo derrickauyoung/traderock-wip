@@ -52,6 +52,8 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
     
+    updateAuthStatus();
+    
     // Remove the hash fragment after login
     window.history.replaceState({}, document.title, window.location.pathname);
 
