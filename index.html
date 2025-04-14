@@ -1,28 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-<script type="module" src="script.js">
-    import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
-    
-    const supabase = createClient(
-        "https://napmuiqctvbegldujfbb.supabase.co",
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5hcG11aXFjdHZiZWdsZHVqZmJiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQ1MzQ1NzYsImV4cCI6MjA2MDExMDU3Nn0.U4SPKOZNpnhhTUzYdiRP_t8O0cAWKrefFrN_ic7jQ6g"
-    );
-    
-    // 🟡 Handle login via URL token (e.g., after email confirmation)
-    supabase.auth.getSession().then(({ data: { session } }) => {
-        if (!session) {
-            supabase.auth.getSessionFromUrl().then(({ data, error }) => {
-                if (error) {
-                    console.error("Auth error:", error.message);
-                } else {
-                    // Session is restored!
-                    console.log("User signed in from confirmation link:", data.session);
-                    window.location.href = "index.html"; // reload or route to homepage
-                }
-            });
-        }
-    });
-</script>
 <head>
     <meta charset="UTF-8" />
     <title>Traderock Auction</title>
