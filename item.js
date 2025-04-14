@@ -9,8 +9,10 @@ async function loadItem() {
     const params = new URLSearchParams(window.location.search);
     const itemId = params.get("id");
 
+    const container = document.getElementById("item-container");
+
     if (!itemId) {
-        document.getElementById("item-container").textContent = "Item not found.";
+        container.textContent = "Item not found.";
         return;
     }
 
@@ -21,11 +23,12 @@ async function loadItem() {
         .single();
 
     if (error || !item) {
-        document.getElementById("item-container").textContent = "Item not found.";
+        container.textContent = "Item not found.";
         return;
     }
 
-    card = renderItem(item);
+    container.innerHTML = ""; // Clear old items
+    card = renderItem(container, item);
 
     // Render bid history under each card
     renderBidHistory(item.id, card);
