@@ -6,7 +6,7 @@ import {
     itemGalleryIndex
 } from './gallery.js';
 
-export function renderItem(item) {
+export function renderItem(container, item) {
     const card = document.createElement("div");
     card.className = "item-card";
     card.setAttribute("data-id", item.id);
@@ -112,6 +112,6 @@ export function renderItems(items) {
     container.innerHTML = ""; // Clear old items
   
     items.forEach(item => {
-        renderItem(item)
+        renderItem(container, item)
     });
 }
