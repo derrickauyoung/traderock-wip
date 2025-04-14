@@ -1,9 +1,9 @@
-const supabase = supabase.createClient(
-    "https://YOUR-PROJECT-ID.supabase.co",
-    "public-anon-key"
+const supabase = window.supabase.createClient(
+    "https://napmuiqctvbegldujfbb.supabase.co",
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5hcG11aXFjdHZiZWdsZHVqZmJiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQ1MzQ1NzYsImV4cCI6MjA2MDExMDU3Nn0.U4SPKOZNpnhhTUzYdiRP_t8O0cAWKrefFrN_ic7jQ6g"
 );
   
-async function handleSignUp() {
+  async function handleSignUp() {
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
     const msg = document.getElementById("message");
@@ -13,13 +13,13 @@ async function handleSignUp() {
     err.textContent = "";
   
     const { data, error } = await supabase.auth.signUp({
-        email,
-        password
+      email,
+      password
     });
   
     if (error) {
-        err.textContent = error.message;
+      err.textContent = error.message;
     } else {
-        msg.textContent = "Check your email to confirm your account!";
+      msg.textContent = "Check your email to confirm your account!";
     }
 }
