@@ -1,16 +1,20 @@
 import { renderItems } from './render.js';
+import { supabase } from './supabaseClient.js';
 
 document.addEventListener("DOMContentLoaded", () => {
-
-    const SUPABASE_URL = 'https://napmuiqctvbegldujfbb.supabase.co';
-    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5hcG11aXFjdHZiZWdsZHVqZmJiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQ1MzQ1NzYsImV4cCI6MjA2MDExMDU3Nn0.U4SPKOZNpnhhTUzYdiRP_t8O0cAWKrefFrN_ic7jQ6g';
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
     supabase.auth.getSession().then(({ data: { session } }) => {
         if (!session) {
             window.location.href = "login.html";
         }
     });    
+
+    let currentUser = null;
+
+    async function fetchCurrentUser() {
+    const { data: { user } } = await supabase.auth.getUser();
+        currentUser = user;
+    }
 
     // Expose supabase + placeBid globally if needed
     window.supabase = supabase;
@@ -80,7 +84,7 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        renderItems(data);
+        renderItems(data, currentUser);
     }
 
     // Expose this function globally

@@ -22,6 +22,8 @@ body {
     width: 100%;
     height: auto;
     border-radius: 6px;
+    max-height: 300px;
+    object-fit: contain;
 }
 
 .item-card h3 {
@@ -109,3 +111,46 @@ input[type="number"] {
     cursor: pointer;
     font-size: 1.5rem;
 }
+
+.bid-history-wrapper {
+    margin-top: 15px;
+  }
+  
+  .toggle-history {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-bottom: 5px;
+  }
+  
+  .bid-history.hidden {
+    display: none;
+  }
+  
+  .bid-history {
+    background: #f7f7f7;
+    padding: 10px;
+    border-radius: 6px;
+    box-shadow: 0 0 3px rgba(0,0,0,0.1);
+  }
+  
+  .bid-info {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .bid-time {
+    font-size: 0.75em;
+    color: #888;
+  }
+  
+  .your-bid {
+    color: green;
+  }
+  
+  .other-bid {
+    color: #555;
+  }
