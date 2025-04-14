@@ -1,14 +1,3 @@
-async function updateAuthStatus() {
-    const { data: { user } } = await supabase.auth.getUser();
-    const statusEl = document.getElementById("auth-status");
-    
-    if (user) {
-        statusEl.textContent = `Logged in as ${user.email}`;
-    } else {
-        statusEl.textContent = "Not logged in";
-    }
-}
-
 (async () => {
     const hash = window.location.hash;
     const error = "";
@@ -24,7 +13,7 @@ async function updateAuthStatus() {
         console.error("Error restoring session:", error.message);
     } else {
         console.log("Session restored!");
-        updateAuthStatus();
+        window.updateAuthStatus();
     }
 
     window.history.replaceState({}, document.title, window.location.pathname);
@@ -65,8 +54,17 @@ document.addEventListener("DOMContentLoaded", () => {
         await supabase.auth.signOut();
             updateAuthStatus();
     }
-
-    updateAuthStatus();
+    
+    window.updateAuthStatus = async function() {
+        const { data: { user } } = await supabase.auth.getUser();
+        const statusEl = document.getElementById("auth-status");
+        
+        if (user) {
+            statusEl.textContent = `Logged in as ${user.email}`;
+        } else {
+            statusEl.textContent = "Not logged in";
+        }
+    }
 
     // ⚙️ Run after the page loads
     loadItems();
