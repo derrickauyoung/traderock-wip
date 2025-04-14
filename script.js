@@ -4,7 +4,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5hcG11aXFjdHZiZWdsZHVqZmJiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQ1MzQ1NzYsImV4cCI6MjA2MDExMDU3Nn0.U4SPKOZNpnhhTUzYdiRP_t8O0cAWKrefFrN_ic7jQ6g';
     const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    const session = "";
     supabase.auth.getSession().then(({ data: { session } }) => {
         if (!session) {
             window.location.href = "login.html";
@@ -56,12 +55,11 @@ document.addEventListener("DOMContentLoaded", () => {
     window.history.replaceState({}, document.title, window.location.pathname);
 
     // ⚙️ Run after the page loads
-    if (session) {
-        loadItems();
-    }
-    else {
-        return;
-    }
+    supabase.auth.getSession().then(({ data: { session } }) => {
+        if (session) {
+            loadItems();
+        }
+    });
   
     // 📦 Load items from Supabase and render them
     async function loadItems() {
