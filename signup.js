@@ -9,7 +9,7 @@ const supabase = window.supabase.createClient(
     const msg = document.getElementById("message");
     const err = document.getElementById("error");
   
-    msg.textContent = "";
+    msg.textContent = "Creating account, please wait ...";
     err.textContent = "";
   
     const { data, error } = await supabase.auth.signUp({
