@@ -107,11 +107,11 @@ export function renderItem(container, item) {
 }
 
 // 🎨 Render auction items to the page
-export function renderItems(items) {
+export function renderItems(items, currentUser) {
     const container = document.getElementById("items-container");
     container.innerHTML = ""; // Clear old items
   
     items.forEach(item => {
-        renderItem(container, item)
+        renderItem(container, item, currentUser)
     });
 }

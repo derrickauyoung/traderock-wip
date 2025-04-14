@@ -1,7 +1,4 @@
-const supabase = window.supabase.createClient(
-    "https://napmuiqctvbegldujfbb.supabase.co",
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5hcG11aXFjdHZiZWdsZHVqZmJiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQ1MzQ1NzYsImV4cCI6MjA2MDExMDU3Nn0.U4SPKOZNpnhhTUzYdiRP_t8O0cAWKrefFrN_ic7jQ6g"
-);
+import { supabase } from './supabaseClient.js';
 
 // Redirect if already logged in
 supabase.auth.getSession().then(({ data: { session } }) => {
