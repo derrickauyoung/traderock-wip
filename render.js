@@ -66,7 +66,7 @@ export function renderItem(container, item, currentUser) {
     // Buy now price
     const buyNow = document.createElement("div");
     buyNow.className = 'item-buynow';
-    buyNow.textContent = `<strong>Buy Now Price</strong>: $${item.buy_now}`;
+    buyNow.textContent = `Buy Now Price: $${item.buy_now}`;
     bidSection.appendChild(buyNow);
 
     const datenow = Date.now();
