@@ -8,7 +8,7 @@ import {
 } from './gallery.js';
 import { renderBidHistory } from './bidHistory.js';
 
-export function renderItem(container, item) {
+export function renderItem(container, item, currentUser) {
     const card = document.createElement("div");
     card.className = "item-card";
     card.setAttribute("data-id", item.id);
@@ -66,16 +66,6 @@ export function renderItem(container, item) {
 
     priceInfo.innerHTML = startingBidText + currentBidText;
 
-    const input = document.createElement("input");
-    input.type = "number";
-    input.placeholder = "Enter your bid";
-    input.id = `input-${item.id}`;
-
-    const button = document.createElement("button");
-    button.className = "bid-btn";
-    button.textContent = "Place Bid";
-    button.onclick = () => placeBid(item.id, card);
-
     card.appendChild(imgGallery);
 
     // Store current index in memory
@@ -87,22 +77,31 @@ export function renderItem(container, item) {
         card.appendChild(desc);
     }
     card.appendChild(priceInfo);
-    card.appendChild(input);
 
     // Check if end date is past
     const end_date = document.createElement("div");
     end_date.className = "end-date";
-    const end_date_text = `<p><strong>Auction ended:</strong> ${item.end_date}</p>`;
+    const end_date_text = `<p><strong>Auction ends:</strong> ${item.end_date}</p>`;
     end_date.innerHTML = end_date_text;
+    card.append(end_date);
+    
+    if (currentUser) {
+        const input = document.createElement("input");
+        input.type = "number";
+        input.placeholder = "Enter your bid";
+        input.id = `input-${item.id}`;
+    
+        const button = document.createElement("button");
+        button.className = "bid-btn";
+        button.textContent = "Place Bid";
+        button.onclick = () => placeBid(item.id, card);
 
-    const timestamptzMillis = new Date(item.end_date).getTime();
-    if (timestamptzMillis > Date.now()) {
-        card.appendChild(button);
+        const timestamptzMillis = new Date(item.end_date).getTime();
+        if (timestamptzMillis > Date.now()) {
+            card.appendChild(input);
+            card.appendChild(button);
+        }
     }
-    else {
-        card.append(end_date);
-    }
-
     container.appendChild(card);
 
     // Expose this function globally
