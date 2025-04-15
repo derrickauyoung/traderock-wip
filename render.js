@@ -81,8 +81,6 @@ export function renderItem(container, item, currentUser) {
     // Check if end date is past
     const end_date = document.createElement("div");
     end_date.className = "end-date";
-    const end_date_text = `<p><strong>Auction ends:</strong></p>`;
-    end_date.innerHTML = end_date_text;
 
     const endsAtDate = new Date(item.end_date);
     const formattedEndTime = endsAtDate.toLocaleString();
