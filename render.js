@@ -77,6 +77,7 @@ export function renderItem(container, item, currentUser) {
         bnButton.textContent = "Buy Now";
         bnButton.onClick = () => placeBuyNow(item.id, card, item.buy_now);
         bidSection.appendChild(bnButton);
+    }
 
     // Auction Bid Info
     const priceInfo = document.createElement("div");
