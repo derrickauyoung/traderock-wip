@@ -25,8 +25,7 @@ body {
 }
 
 .item-card img {
-    width: 100%;
-    height: auto;
+    width: auto;
     border-radius: 6px;
     max-height: 450px;
     object-fit: contain;
