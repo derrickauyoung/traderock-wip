@@ -43,6 +43,7 @@ async function loadItem() {
     const card = renderItem(container, item);
 
     // Render bid history under each card
+    fetchCurrentUser();
     renderBidHistory(item.id, card, currentUser);
 }
 
