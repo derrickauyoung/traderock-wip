@@ -160,10 +160,10 @@ input[type="number"] {
   .end-date {
     font-size: 0.9em;
     color: #535353;
-    background-color: #c7c2f3;
+    background-color: #e6ffe6;
     padding: 8px;
     display: flex;
-    justify-content: space-between;
+    text-align: center;
   }
   
   .bid-time {
