@@ -61,6 +61,7 @@ body {
     margin-bottom: 4px;
     padding: 4px;
     text-align: center;
+    font-style: bold;
 }
 
 .bid-btn {
@@ -191,4 +192,8 @@ input[type="number"] {
     justify-content: space-between;
     gap: 8px;
     margin-top: auto;
+  }
+
+  .bid-section button {
+    width: 150;
   }
