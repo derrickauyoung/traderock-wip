@@ -73,9 +73,7 @@ export function renderItem(container, item, currentUser) {
     itemGalleryImages[item.id] = item.image_urls || [];
 
     card.appendChild(title);
-    if (item.description !== null) {
-        card.appendChild(desc);
-    }
+    card.appendChild(desc);
     card.appendChild(priceInfo);
 
     // Check if end date is past
@@ -86,25 +84,79 @@ export function renderItem(container, item, currentUser) {
     const timeRemaining = timeUntil(item.end_date);
     end_date.textContent = `Auction ${timeRemaining} (${formattedEndTime})`;
     card.append(end_date);
+
+    const bidSection = document.createElement("div");
+    bidSection.className = "bid-section";
+
+    // Buy now price
+    const buyNow = document.createElement("div");
+    buyNow.className = 'item-buynow';
+    buyNow.textContent = `Buy Now Price: $${item.buy_now}`;
+    bidSection.appendChild(buyNow);
     
     if (currentUser) {
         const input = document.createElement("input");
         input.type = "number";
         input.placeholder = "Enter your bid";
         input.id = `input-${item.id}`;
+
+        const bnButton = document.createElement("button");
+        bnButton.className = "bn-btn";
+        bnButton.textContent = "Buy Now";
+        bnButton.onClick = () => placeBuyNow(item.id, card, item.buy_now);
     
-        const button = document.createElement("button");
-        button.className = "bid-btn";
-        button.textContent = "Place Bid";
-        button.onclick = () => placeBid(item.id, card);
+        const bidButton = document.createElement("button");
+        bidButton.className = "bid-btn";
+        bidButton.textContent = "Place Bid";
+        bidButton.onclick = () => placeBid(item.id, card);
 
         const timestamptzMillis = new Date(item.end_date).getTime();
         if (timestamptzMillis > Date.now()) {
-            card.appendChild(input);
-            card.appendChild(button);
+            bidSection.appendChild(bnButton);
+            bidSection.appendChild(input);
+            bidSection.appendChild(bidButton);
         }
+        card.appendChild(bidSection);
     }
     container.appendChild(card);
+
+    window.placeBuyNow = async function(id, card, price) {
+        const {
+            data: { user }
+        } = await supabase.auth.getUser();
+
+        if (user) {
+            console.log("Signed in.")
+        }
+        else {
+            alert("❌ Please sign up or log in.");
+            return;
+        }
+        
+        // Close the auction and update bid history
+        const inputEl = document.getElementById(`input-${id}`);
+        inputEl.value = price;
+
+        placeBid(id, card)
+
+        // Update end time in Supabase
+        const timestampz = new Date().toISOString();
+        const { error } = await supabase
+            .from("items")
+            .update({ end_date: timestampz })
+            .eq("id", id);
+        
+        if (error) {
+            console.error("Error updating end date:", error);
+            alert("❌ Something went wrong. Try again.");
+            return;
+        }
+
+        // Update UI
+        const item = document.getElementById(`item-${id}`);
+        renderItem(card, item, user);
+        inputEl.value = "";
+    }
 
     // Expose this function globally
     window.placeBid = async function(id, card) {
