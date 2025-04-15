@@ -151,7 +151,7 @@ export function renderItem(container, item, currentUser) {
         const item = document.getElementById(`item-${id}`);
         renderItem(card, item, user);
         inputEl.value = "";
-    }
+    };
 
     // Expose this function globally
     window.placeBid = async function(id, card) {
