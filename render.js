@@ -167,6 +167,8 @@ export function renderItem(container, item) {
         }]);
         
         // Update UI
+        const card = document.getElementById("item-card");
+        renderBidHistory(id, card, user);
         inputEl.value = "";
         alert("✅ Bid placed successfully!");
     };
