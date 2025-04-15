@@ -3,7 +3,10 @@ import { supabase } from './supabaseClient.js';
 // Redirect if already logged in
 supabase.auth.getSession().then(({ data: { session } }) => {
     if (session) {
-      window.location.href = "index.html"; // or your homepage
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+          window.location.href = "index.html"; // or your homepage
+      }
     }
 });
 
