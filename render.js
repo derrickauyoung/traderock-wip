@@ -131,6 +131,11 @@ export function renderItem(container, item, currentUser) {
 
     window.placeBuyNow = async function(id, card, price) {
         const user = await authUser();
+
+        if (!user) {
+            console.error("User not logged in.");
+            return;
+        }
         
         // Close the auction and update bid history
         updateBidTable(user, price, id);
@@ -158,6 +163,11 @@ export function renderItem(container, item, currentUser) {
     // Expose this function globally
     window.placeBid = async function(id, card) {
         const user = await authUser();
+
+        if (!user) {
+            console.error("User not logged in.");
+            return;
+        }
 
         const inputEl = document.getElementById(`input-${id}`);
         const bidValue = parseFloat(inputEl.value);
