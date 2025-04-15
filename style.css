@@ -85,13 +85,6 @@ input[type="number"] {
     box-sizing: border-box;
   }
 
-.bid-history {
-    margin-top: 10px;
-    font-size: 0.9em;
-    color: #555;
-    padding-left: 1em;
-}
-
 .bid-history li {
     margin-bottom: 4px;
 }
