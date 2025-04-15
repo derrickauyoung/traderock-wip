@@ -16,7 +16,8 @@ body {
 .item-card {
     display: flex;
     flex-direction: column;
-    height: 650px;
+    height: 750px;
+    width: 33%;
     border: 1px solid #ccc;
     padding: 15px;
     border-radius: 8px;
@@ -187,6 +188,7 @@ input[type="number"] {
 
   .bid-section {
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
     gap: 8px;
     margin-top: auto;
