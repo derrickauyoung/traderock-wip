@@ -158,7 +158,9 @@ input[type="number"] {
   }
 
   .end-date {
-    background-color: #d1ccff;
+    font-size: 0.9em;
+    color: #535353;
+    background-color: #c7c2f3;
     padding: 8px;
     display: flex;
     justify-content: space-between;
