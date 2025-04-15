@@ -74,7 +74,7 @@ export function renderItem(container, item) {
     const button = document.createElement("button");
     button.className = "bid-btn";
     button.textContent = "Place Bid";
-    button.onclick = () => placeBid(item.id);
+    button.onclick = () => placeBid(item.id, card);
 
     card.appendChild(imgGallery);
 
@@ -106,7 +106,7 @@ export function renderItem(container, item) {
     container.appendChild(card);
 
     // Expose this function globally
-    window.placeBid = async function(id) {
+    window.placeBid = async function(id, card) {
         const inputEl = document.getElementById(`input-${id}`);
         const bidValue = parseFloat(inputEl.value);
 
@@ -167,7 +167,6 @@ export function renderItem(container, item) {
         }]);
         
         // Update UI
-        const card = document.getElementById("item-card");
         renderBidHistory(id, card, user);
         inputEl.value = "";
         alert("✅ Bid placed successfully!");
