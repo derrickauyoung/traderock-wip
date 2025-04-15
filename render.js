@@ -79,6 +79,15 @@ export function renderItem(container, item, currentUser) {
         bnButton.onclick = () => placeBuyNow(item.id, card, item.buy_now);
         bidSection.appendChild(bnButton);
     }
+    
+    // Check if end date is past
+    const end_date = document.createElement("div");
+    end_date.className = "end-date";
+    const endsAtDate = new Date(item.end_date);
+    const formattedEndTime = endsAtDate.toLocaleString();
+    const timeRemaining = timeUntil(item.end_date);
+    end_date.textContent = `Offer ${timeRemaining} (${formattedEndTime})`;
+    bidSection.appendChild(end_date);
 
     // Auction Bid Info
     if (auction()) {
@@ -96,15 +105,6 @@ export function renderItem(container, item, currentUser) {
         }
 
         priceInfo.innerHTML = startingBidText + currentBidText;
-
-        // Check if end date is past
-        const end_date = document.createElement("div");
-        end_date.className = "end-date";
-        const endsAtDate = new Date(item.end_date);
-        const formattedEndTime = endsAtDate.toLocaleString();
-        const timeRemaining = timeUntil(item.end_date);
-        end_date.textContent = `Offer ${timeRemaining} (${formattedEndTime})`;
-        bidSection.append(end_date);
         
         if (currentUser) {
             const input = document.createElement("input");
