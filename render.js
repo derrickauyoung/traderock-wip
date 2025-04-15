@@ -131,7 +131,7 @@ export function renderItem(container, item, currentUser) {
         const user = await authUser();
         
         // Close the auction and update bid history
-        updateBidTable(user, price);
+        updateBidTable(user, price, id);
 
         // Update end time in Supabase
         const timestampz = new Date().toISOString();
@@ -175,7 +175,7 @@ export function renderItem(container, item, currentUser) {
         }
 
         // Update bid table
-        updateBidTable(user, bidValue);
+        updateBidTable(user, bidValue, id);
         
         // Update UI
         renderBidHistory(id, card, user);
@@ -202,7 +202,7 @@ export async function authUser() {
     return user;
 }
 
-export async function updateBidTable(user, bidValue) {
+export async function updateBidTable(user, bidValue, id) {
     const bidder = user?.email
     if (bidder) {
         console.log("User email:", bidder);
