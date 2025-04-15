@@ -79,7 +79,7 @@ export function renderItem(container, item, currentUser) {
         bnButton.onclick = () => placeBuyNow(item.id, card, item.buy_now);
         bidSection.appendChild(bnButton);
     }
-    
+
     // Check if end date is past
     const end_date = document.createElement("div");
     end_date.className = "end-date";
@@ -128,7 +128,7 @@ export function renderItem(container, item, currentUser) {
     container.appendChild(card);
 
     window.placeBuyNow = async function(id, card, price) {
-        user = authUser();
+        const user = authUser();
         
         // Close the auction and update bid history
         updateBidTable(user, price);
@@ -154,7 +154,7 @@ export function renderItem(container, item, currentUser) {
 
     // Expose this function globally
     window.placeBid = async function(id, card) {
-        user = authUser();
+        const user = authUser();
 
         const inputEl = document.getElementById(`input-${id}`);
         const bidValue = parseFloat(inputEl.value);
