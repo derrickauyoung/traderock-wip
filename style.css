@@ -21,7 +21,7 @@ body {
     border-radius: 8px;
     background-color: #f9f9f9;
     max-width: 600px;
-    max-height: 800px;
+    max-height: 1000px;
 }
 
 .item-card img {
@@ -195,5 +195,6 @@ input[type="number"] {
   }
 
   .bid-section button {
-    width: 150;
+    padding-left: 25px;
+    padding-right: 25px;
   }
