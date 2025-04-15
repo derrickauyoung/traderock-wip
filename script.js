@@ -52,6 +52,11 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
     
+    document.getElementById("logout-link").addEventListener("click", (e) => {
+        e.preventDefault();
+        signOut();
+    });
+
     updateAuthStatus();
 
     // Remove the hash fragment after login
