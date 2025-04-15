@@ -1,14 +1,19 @@
 import { supabase } from './supabaseClient.js';
 
 // Redirect if already logged in
-supabase.auth.getSession().then(({ data: { session } }) => {
-    if (session) {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (user) {
-          window.location.href = "index.html"; // or your homepage
-      }
+async function checkLogin() {
+  const { data: { session } } = await supabase.auth.getSession();
+
+  if (session) {
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (user) {
+      window.location.href = "index.html"; // or your homepage
     }
-});
+  }
+}
+
+checkLogin();
 
 window.handleLogin = async function() {
     const email = document.getElementById("email").value;
