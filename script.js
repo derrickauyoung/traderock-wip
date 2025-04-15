@@ -43,6 +43,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     
     window.signOut = async function() {
+        const loginout = document.getElementById("items-loginout");
+        loginout.textContents = "Login";
+        loginout.onClick = () => window.location.href = "login.html";
         await supabase.auth.signOut();
         updateAuthStatus();
         window.location.href = "index.html";
@@ -65,12 +68,8 @@ document.addEventListener("DOMContentLoaded", () => {
     window.history.replaceState({}, document.title, window.location.pathname);
 
     // ⚙️ Run after the page loads
-    supabase.auth.getSession().then(({ data: { session } }) => {
-        if (session) {
-            loadItems();
-        }
-    });
-  
+    loadItems();
+    
     // 📦 Load items from Supabase and render them
     async function loadItems() {
         const { data, error } = await supabase
