@@ -186,7 +186,7 @@ export function renderItem(container, item, currentUser) {
     return card;
 }
 
-export function authUser() {
+export async function authUser() {
     const {
         data: { user }
     } = await supabase.auth.getUser();
