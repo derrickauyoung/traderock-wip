@@ -65,7 +65,7 @@ body {
 }
 
 .bid-btn {
-    margin-top: 10px;
+    margin: 10px auto 0;
     padding: 8px 12px;
     background-color: #007bff;
     color: white;
@@ -73,11 +73,11 @@ body {
     border-radius: 4px;
     cursor: pointer;
     width: 250px;
-    align-items: center;
+    display: block;
 }
 
 .bn-btn {
-    margin-top: 10px;
+    margin: 10px auto 0;
     padding: 8px 12px;
     background-color: #0050a5;
     color: white;
@@ -85,7 +85,7 @@ body {
     border-radius: 4px;
     cursor: pointer;
     width: 250px;
-    align-items: center;
+    display: block;
 }
 
 .home-btn {
