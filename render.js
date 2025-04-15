@@ -135,10 +135,10 @@ export function renderItem(container, item, currentUser) {
         updateBidTable(user, price, id);
 
         // Update end time in Supabase
-        const timestampz = new Date().toISOString();
+        const timestamptz = new Date().toISOString();
         const { error } = await supabase
             .from("items")
-            .update({ end_date: timestampz })
+            .update({ end_date: timestamptz })
             .eq("id", id);
         
         if (error) {
@@ -148,8 +148,8 @@ export function renderItem(container, item, currentUser) {
         }
 
         // Update UI
-        const item = document.getElementById(`item-${id}`);
-        renderItem(card, item, user);
+        renderBidHistory(id, card, user);
+        alert("✅ Congrats on your purchase! Please contact seller.");
     };
 
     // Expose this function globally
