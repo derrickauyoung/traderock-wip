@@ -1,6 +1,12 @@
 import { supabase } from './supabaseClient.js';
 
 export async function renderBidHistory(itemId, container, currentUser) {
+    // Remove any existing bid history wrapper first
+    const existingWrapper = container.querySelector(".bid-history-wrapper");
+    if (existingWrapper) {
+        existingWrapper.remove();
+    }
+
     const wrapper = document.createElement("div");
     wrapper.className = "bid-history-wrapper";
     wrapper.innerHTML = `
