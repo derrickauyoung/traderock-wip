@@ -123,16 +123,12 @@ input[type="number"] {
     display: none;
   }
 
-  .bid-history {
-    display: none;
-    margin-top: 10px;
-  }
-  
   .bid-history.shown {
     display: block;
   }
   
   .bid-history {
+    margin-top: 10px;
     background: #f7f7f7;
     padding: 10px;
     border-radius: 6px;
@@ -158,6 +154,11 @@ input[type="number"] {
     display: flex;
     justify-content: space-between;
     font-weight: bold;
+  }
+
+  .end-date {
+    display: flex;
+    justify-content: space-between;
   }
   
   .bid-time {
