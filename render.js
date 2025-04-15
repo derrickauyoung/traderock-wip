@@ -66,8 +66,17 @@ export function renderItem(container, item, currentUser) {
     // Buy now price
     const buyNow = document.createElement("div");
     buyNow.className = 'item-buynow';
-    buyNow.textContent = `Buy Now Price: $${item.buy_now}`;
+    buyNow.textContent = `<strong>Buy Now Price</strong>: $${item.buy_now}`;
     bidSection.appendChild(buyNow);
+
+    const datenow = Date.now()
+    const timestamptzMillis = new Date(item.end_date).getTime();
+    if (timestamptzMillis > datenow) {
+        const bnButton = document.createElement("button");
+        bnButton.className = "bn-btn";
+        bnButton.textContent = "Buy Now";
+        bnButton.onClick = () => placeBuyNow(item.id, card, item.buy_now);
+        bidSection.appendChild(bnButton);
 
     // Auction Bid Info
     const priceInfo = document.createElement("div");
@@ -84,7 +93,6 @@ export function renderItem(container, item, currentUser) {
     }
 
     priceInfo.innerHTML = startingBidText + currentBidText;
-    bidSection.appendChild(priceInfo);
 
     // Check if end date is past
     const end_date = document.createElement("div");
@@ -92,7 +100,7 @@ export function renderItem(container, item, currentUser) {
     const endsAtDate = new Date(item.end_date);
     const formattedEndTime = endsAtDate.toLocaleString();
     const timeRemaining = timeUntil(item.end_date);
-    end_date.textContent = `Auction ${timeRemaining} (${formattedEndTime})`;
+    end_date.textContent = `Offer ${timeRemaining} (${formattedEndTime})`;
     bidSection.append(end_date);
     
     if (currentUser) {
@@ -100,20 +108,14 @@ export function renderItem(container, item, currentUser) {
         input.type = "number";
         input.placeholder = "Enter your bid";
         input.id = `input-${item.id}`;
-
-        const bnButton = document.createElement("button");
-        bnButton.className = "bn-btn";
-        bnButton.textContent = "Buy Now";
-        bnButton.onClick = () => placeBuyNow(item.id, card, item.buy_now);
     
         const bidButton = document.createElement("button");
         bidButton.className = "bid-btn";
         bidButton.textContent = "Place Bid";
         bidButton.onclick = () => placeBid(item.id, card);
 
-        const timestamptzMillis = new Date(item.end_date).getTime();
-        if (timestamptzMillis > Date.now()) {
-            bidSection.appendChild(bnButton);
+        if (timestamptzMillis > datenow) {
+            bidSection.appendChild(priceInfo);
             bidSection.appendChild(input);
             bidSection.appendChild(bidButton);
         }
