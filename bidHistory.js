@@ -39,7 +39,7 @@ export async function renderBidHistory(itemId, container, currentUser) {
       list.innerHTML = "";
   
       bids.forEach(bid => {
-        const isOwnBid = currentUser && bid.user_email === currentUser.email;
+        const isOwnBid = currentUser && bid.bidder_name === currentUser.email;
         const userLabel = isOwnBid ? "You" : "Another user";
         const timestamp = new Date(bid.created_at).toLocaleString();
   
