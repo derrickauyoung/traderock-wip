@@ -1,7 +1,6 @@
-import { createClient } from 'https://esm.sh/@supabase/supabase-js'
+import { supabase } from './supabaseClient.js';
 import { renderItem } from './render.js';
 import { renderBidHistory } from './bidHistory.js';
-import { supabase } from './supabaseClient.js';
 
 let currentUser = null;
 
