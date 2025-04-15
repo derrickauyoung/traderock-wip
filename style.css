@@ -16,13 +16,12 @@ body {
 .item-card {
     display: flex;
     flex-direction: column;
-    height: 750px;
-    width: 33%;
     border: 1px solid #ccc;
     padding: 15px;
     border-radius: 8px;
     background-color: #f9f9f9;
     max-width: 600px;
+    max-height: 800px;
 }
 
 .item-card img {
