@@ -6,6 +6,9 @@ document.addEventListener("DOMContentLoaded", () => {
     supabase.auth.getSession().then(({ data: { session } }) => {
         if (!session) {
             console.log("User not logged in.");
+            const loginout = document.getElementById("items-loginout");
+            loginout.textContents = "Login";
+            loginout.onClick = () => window.location.href = "login.html";
         }
     });    
 
