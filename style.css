@@ -179,6 +179,7 @@ input[type="number"] {
     padding: 8px;
     display: flex;
     text-align: center;
+    margin: 10px auto 0;
   }
   
   .bid-time {
