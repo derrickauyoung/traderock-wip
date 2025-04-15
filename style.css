@@ -115,19 +115,18 @@ input[type="number"] {
 .bid-history-wrapper {
     margin-top: 15px;
   }
-  
-  .toggle-history {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    padding: 6px 12px;
-    cursor: pointer;
-    border-radius: 4px;
-    margin-bottom: 5px;
-  }
-  
+
   .bid-history.hidden {
     display: none;
+  }
+
+  .bid-history {
+    display: none;
+    margin-top: 10px;
+  }
+  
+  .bid-history.shown {
+    display: block;
   }
   
   .bid-history {
@@ -137,20 +136,42 @@ input[type="number"] {
     box-shadow: 0 0 3px rgba(0,0,0,0.1);
   }
   
+  .toggle-history {
+    margin-top: 8px;
+    background-color: #eee;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .bid-list {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0;
+  }
+  
   .bid-info {
     display: flex;
     justify-content: space-between;
+    font-weight: bold;
   }
   
   .bid-time {
-    font-size: 0.75em;
-    color: #888;
+    font-size: 0.85em;
+    color: #777;
   }
   
   .your-bid {
-    color: green;
+    background-color: #e6ffe6;
+    padding: 8px;
+    border-radius: 4px;
+    margin-bottom: 6px;
   }
   
   .other-bid {
-    color: #555;
+    background-color: #f0f0f0;
+    padding: 8px;
+    border-radius: 4px;
+    margin-bottom: 6px;
   }
