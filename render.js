@@ -86,7 +86,7 @@ export function renderItem(container, item, currentUser) {
     const formattedEndTime = endsAtDate.toLocaleString();
     const timeRemaining = timeUntil(item.end_date);
 
-    time_until = `Ends ${timeRemaining} (${formattedEndTime})`;
+    time_until = `Auction ${timeRemaining} (${formattedEndTime})`;
     end_date.textContent = time_until;
     card.append(end_date);
     
@@ -207,9 +207,9 @@ export function timeUntil(date) {
     for (const [unit, secondsPer] of Object.entries(intervals)) {
       const amount = Math.floor(seconds / secondsPer);
       if (amount >= 1) {
-        return `in ${amount} ${unit}${amount > 1 ? 's' : ''}`;
+        return `ends in ${amount} ${unit}${amount > 1 ? 's' : ''}`;
       }
     }
   
-    return "in a few seconds";
+    return "ends in a few seconds";
 }
