@@ -69,7 +69,7 @@ export function renderItem(container, item, currentUser) {
     buyNow.textContent = `<strong>Buy Now Price</strong>: $${item.buy_now}`;
     bidSection.appendChild(buyNow);
 
-    const datenow = Date.now()
+    const datenow = Date.now();
     const timestamptzMillis = new Date(item.end_date).getTime();
     if (timestamptzMillis > datenow) {
         const bnButton = document.createElement("button");
@@ -140,7 +140,7 @@ export function renderItem(container, item, currentUser) {
         const inputEl = document.getElementById(`input-${id}`);
         inputEl.value = price;
 
-        placeBid(id, card)
+        placeBid(id, card);
 
         // Update end time in Supabase
         const timestampz = new Date().toISOString();
