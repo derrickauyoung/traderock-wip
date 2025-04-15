@@ -77,7 +77,7 @@ export function renderItem(container, item, currentUser) {
         const bnButton = document.createElement("button");
         bnButton.id = `bnbtn-${item.id}`;
         bnButton.className = "bn-btn";
-        bnButton.textContent = "Buy Now";
+        bnButton.textContent = "Request Now";
         bnButton.onclick = () => placeBuyNow(item.id, card, item.buy_now);
         bidSection.appendChild(bnButton);
     }
@@ -226,6 +226,25 @@ export async function updateBidTable(user, bidValue, id) {
         return;
     }
     
+    // Check if there is already a bid at this price
+    const { bids, error } = await supabase
+        .from("bids")
+        .get({ amount })
+        .eq("item_id", id);
+    if (error) {
+        console.error("Error retrieving current bids:", error);
+        alert("❌ Something went wrong. Try again.");
+        return;
+    }
+
+    bids.forEach( bid => {
+        if (bidValue == amount) {
+            console.error("There was already a bid at this amount!");
+            alert("Sorry, there was already a bid at this amount!");
+            return;
+        }
+    });
+
     // Update bid in Supabase
     const { error } = await supabase
         .from("items")
