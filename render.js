@@ -7,6 +7,7 @@ import {
     itemGalleryIndex
 } from './gallery.js';
 import { renderBidHistory } from './bidHistory.js';
+import { auction } from './constants.js';
 
 export function renderItem(container, item, currentUser) {
     const card = document.createElement("div");
@@ -80,68 +81,57 @@ export function renderItem(container, item, currentUser) {
     }
 
     // Auction Bid Info
-    const priceInfo = document.createElement("div");
+    if (auction()) {
+        const priceInfo = document.createElement("div");
 
-    const startingBidText = `<p><strong>Starting Bid:</strong> $${item.starting_bid}</p>`;
+        const startingBidText = `<p><strong>Starting Bid:</strong> $${item.starting_bid}</p>`;
 
-    const currentBid = item.current_bid ?? item.starting_bid;
+        const currentBid = item.current_bid ?? item.starting_bid;
 
-    let currentBidText = "";
-    if (item.current_bid !== null && currentBid !== item.starting_bid) {
-        currentBidText = `<p id="bid-${item.id}"><strong>Current Bid:</strong> $${currentBid}</p>`;
-    } else {
-        currentBidText = `<p id="bid-${item.id}"></p>`; // empty element for consistent updating later
-    }
+        let currentBidText = "";
+        if (item.current_bid !== null && currentBid !== item.starting_bid) {
+            currentBidText = `<p id="bid-${item.id}"><strong>Current Bid:</strong> $${currentBid}</p>`;
+        } else {
+            currentBidText = `<p id="bid-${item.id}"></p>`; // empty element for consistent updating later
+        }
 
-    priceInfo.innerHTML = startingBidText + currentBidText;
+        priceInfo.innerHTML = startingBidText + currentBidText;
 
-    // Check if end date is past
-    const end_date = document.createElement("div");
-    end_date.className = "end-date";
-    const endsAtDate = new Date(item.end_date);
-    const formattedEndTime = endsAtDate.toLocaleString();
-    const timeRemaining = timeUntil(item.end_date);
-    end_date.textContent = `Offer ${timeRemaining} (${formattedEndTime})`;
-    bidSection.append(end_date);
-    
-    if (currentUser) {
-        const input = document.createElement("input");
-        input.type = "number";
-        input.placeholder = "Enter your bid";
-        input.id = `input-${item.id}`;
-    
-        const bidButton = document.createElement("button");
-        bidButton.className = "bid-btn";
-        bidButton.textContent = "Place Bid";
-        bidButton.onclick = () => placeBid(item.id, card);
+        // Check if end date is past
+        const end_date = document.createElement("div");
+        end_date.className = "end-date";
+        const endsAtDate = new Date(item.end_date);
+        const formattedEndTime = endsAtDate.toLocaleString();
+        const timeRemaining = timeUntil(item.end_date);
+        end_date.textContent = `Offer ${timeRemaining} (${formattedEndTime})`;
+        bidSection.append(end_date);
+        
+        if (currentUser) {
+            const input = document.createElement("input");
+            input.type = "number";
+            input.placeholder = "Enter your bid";
+            input.id = `input-${item.id}`;
+        
+            const bidButton = document.createElement("button");
+            bidButton.className = "bid-btn";
+            bidButton.textContent = "Place Bid";
+            bidButton.onclick = () => placeBid(item.id, card);
 
-        if (timestamptzMillis > datenow) {
-            bidSection.appendChild(priceInfo);
-            bidSection.appendChild(input);
-            bidSection.appendChild(bidButton);
+            if (timestamptzMillis > datenow) {
+                bidSection.appendChild(priceInfo);
+                bidSection.appendChild(input);
+                bidSection.appendChild(bidButton);
+            }
         }
     }
     card.appendChild(bidSection);
     container.appendChild(card);
 
     window.placeBuyNow = async function(id, card, price) {
-        const {
-            data: { user }
-        } = await supabase.auth.getUser();
-
-        if (user) {
-            console.log("Signed in.")
-        }
-        else {
-            alert("❌ Please sign up or log in.");
-            return;
-        }
+        user = authUser();
         
         // Close the auction and update bid history
-        const inputEl = document.getElementById(`input-${id}`);
-        inputEl.value = price;
-
-        placeBid(id, card);
+        updateBidTable(user, price);
 
         // Update end time in Supabase
         const timestampz = new Date().toISOString();
@@ -164,20 +154,10 @@ export function renderItem(container, item, currentUser) {
 
     // Expose this function globally
     window.placeBid = async function(id, card) {
+        user = authUser();
+
         const inputEl = document.getElementById(`input-${id}`);
         const bidValue = parseFloat(inputEl.value);
-
-        const {
-            data: { user }
-        } = await supabase.auth.getUser();
-
-        if (user) {
-            console.log("Signed in.")
-        }
-        else {
-            alert("❌ Please sign up or log in.");
-            return;
-        }
         
         if (isNaN(bidValue)) {
             alert("❌ Please enter a valid number.");
@@ -194,34 +174,8 @@ export function renderItem(container, item, currentUser) {
             return;
         }
 
-        const bidder = user?.email
-        if (bidder) {
-            console.log("User email:", bidder);
-        }
-        else {
-            console.error("Problem retrieving user email.");
-            alert("❌ Please sign up or log in.");
-            return;
-        }
-        
-        // Update bid in Supabase
-        const { error } = await supabase
-            .from("items")
-            .update({ current_bid: bidValue })
-            .eq("id", id);
-        
-        if (error) {
-            console.error("Error updating bid:", error);
-            alert("❌ Something went wrong. Try again.");
-            return;
-        }
-        
-        await supabase.from("bids").insert([{
-            item_id: id,
-            amount: bidValue,
-            bidder_name: bidder,
-            user_id: user?.id // if you want to add that to your bids table
-        }]);
+        // Update bid table
+        updateBidTable(user, bidValue);
         
         // Update UI
         renderBidHistory(id, card, user);
@@ -230,6 +184,53 @@ export function renderItem(container, item, currentUser) {
     };
 
     return card;
+}
+
+export function authUser() {
+    const {
+        data: { user }
+    } = await supabase.auth.getUser();
+
+    if (user) {
+        console.log("Signed in.")
+    }
+    else {
+        alert("❌ Please sign up or log in.");
+        return;
+    }
+
+    return user;
+}
+
+export function updateBidTable(user, bidValue) {
+    const bidder = user?.email
+    if (bidder) {
+        console.log("User email:", bidder);
+    }
+    else {
+        console.error("Problem retrieving user email.");
+        alert("❌ Please sign up or log in.");
+        return;
+    }
+    
+    // Update bid in Supabase
+    const { error } = await supabase
+        .from("items")
+        .update({ current_bid: bidValue })
+        .eq("id", id);
+    
+    if (error) {
+        console.error("Error updating bid:", error);
+        alert("❌ Something went wrong. Try again.");
+        return;
+    }
+    
+    await supabase.from("bids").insert([{
+        item_id: id,
+        amount: bidValue,
+        bidder_name: bidder,
+        user_id: user?.id // if you want to add that to your bids table
+    }]);
 }
 
 // 🎨 Render auction items to the page
