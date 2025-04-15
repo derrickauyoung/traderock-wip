@@ -9,13 +9,6 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });    
 
-    let currentUser = null;
-
-    async function fetchCurrentUser() {
-    const { data: { user } } = await supabase.auth.getUser();
-        currentUser = user;
-    }
-
     // Expose supabase + placeBid globally if needed
     window.supabase = supabase;
 
@@ -80,6 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        renderItems(data, currentUser);
+        const { data: { user } } = await supabase.auth.getUser();
+        renderItems(data, user);
     }
 });
