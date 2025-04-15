@@ -11,6 +11,7 @@ import { auction } from './constants.js';
 
 export function renderItem(container, item, currentUser) {
     const card = document.createElement("div");
+    card.id = `item-${item.id}`;
     card.className = "item-card";
     card.setAttribute("data-id", item.id);
 
@@ -149,7 +150,6 @@ export function renderItem(container, item, currentUser) {
         // Update UI
         const item = document.getElementById(`item-${id}`);
         renderItem(card, item, user);
-        inputEl.value = "";
     };
 
     // Expose this function globally
