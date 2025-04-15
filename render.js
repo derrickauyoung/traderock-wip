@@ -75,6 +75,7 @@ export function renderItem(container, item, currentUser) {
     const timestamptzMillis = new Date(item.end_date).getTime();
     if (timestamptzMillis > datenow) {
         const bnButton = document.createElement("button");
+        bnButton.id = `bnbtn-${item.id}`;
         bnButton.className = "bn-btn";
         bnButton.textContent = "Buy Now";
         bnButton.onclick = () => placeBuyNow(item.id, card, item.buy_now);
@@ -149,6 +150,8 @@ export function renderItem(container, item, currentUser) {
 
         // Update UI
         renderBidHistory(id, card, user);
+        const buynowbtn = document.getElementById(`bnbtn-${id}`);
+        buynowbtn.remove();
         alert("✅ Congrats on your purchase! Please contact seller.");
     };
 
