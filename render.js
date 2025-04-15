@@ -202,11 +202,12 @@ export function timeUntil(date) {
     };
   
     for (const [unit, secondsPer] of Object.entries(intervals)) {
-      const amount = Math.floor(seconds / secondsPer);
-      if (amount >= 1) {
-        return `ends in ${amount} ${unit}${amount > 1 ? 's' : ''}`;
+      const rawAmount = seconds / secondsPer;
+      if (rawAmount >= 1) {
+        const rounded = Math.round(rawAmount * 10) / 10; // 1 decimal
+        return `ends in ${rounded} ${unit}${rounded !== 1 ? 's' : ''}`;
       }
     }
   
     return "ends in a few seconds";
-}
+  }
