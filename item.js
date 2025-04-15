@@ -2,13 +2,6 @@ import { supabase } from './supabaseClient.js';
 import { renderItem } from './render.js';
 import { renderBidHistory } from './bidHistory.js';
 
-let currentUser = null;
-
-async function fetchCurrentUser() {
-  const { data: { user } } = await supabase.auth.getUser();
-  currentUser = user;
-}
-
 async function loadItem() {
     const params = new URLSearchParams(window.location.search);
     const itemId = params.get("id");
@@ -43,8 +36,8 @@ async function loadItem() {
     const card = renderItem(container, item);
 
     // Render bid history under each card
-    fetchCurrentUser();
-    renderBidHistory(item.id, card, currentUser);
+    const { data: { user } } = await supabase.auth.getUser();
+    renderBidHistory(item.id, card, user);
 }
 
 
