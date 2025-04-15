@@ -208,3 +208,13 @@ input[type="number"] {
     gap: 8px;
     margin-top: auto;
   }
+
+  .auth-links a {
+    margin-right: 10px;
+    text-decoration: none;
+    color: #0050a5;
+  }
+  
+  .auth-links a:last-child {
+    margin-right: 0;
+  }
