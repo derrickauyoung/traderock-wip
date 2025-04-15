@@ -73,16 +73,8 @@ export function renderItem(container, item, currentUser) {
     itemGalleryImages[item.id] = item.image_urls || [];
 
     card.appendChild(title);
-    if (item.description !== null) {
-        card.appendChild(desc);
-    }
+    card.appendChild(desc);
     card.appendChild(priceInfo);
-
-    // Buy now price
-    const buyNow = document.createElement("div");
-    buyNow.className = 'item-buynow';
-    buyNow.textContent = `Buy Now Price: $${item.buy_now}`;
-    card.appendChild(buyNow);
 
     // Check if end date is past
     const end_date = document.createElement("div");
@@ -92,6 +84,15 @@ export function renderItem(container, item, currentUser) {
     const timeRemaining = timeUntil(item.end_date);
     end_date.textContent = `Auction ${timeRemaining} (${formattedEndTime})`;
     card.append(end_date);
+
+    const bidSection = document.createElement("div");
+    bidSection.className = "bid-section";
+
+    // Buy now price
+    const buyNow = document.createElement("div");
+    buyNow.className = 'item-buynow';
+    buyNow.textContent = `Buy Now Price: $${item.buy_now}`;
+    bidSection.appendChild(buyNow);
     
     if (currentUser) {
         const input = document.createElement("input");
@@ -111,10 +112,11 @@ export function renderItem(container, item, currentUser) {
 
         const timestamptzMillis = new Date(item.end_date).getTime();
         if (timestamptzMillis > Date.now()) {
-            card.appendChild(bnButton);
-            card.appendChild(input);
-            card.appendChild(bidButton);
+            bidSection.appendChild(bnButton);
+            bidSection.appendChild(input);
+            bidSection.appendChild(bidButton);
         }
+        card.appendChild(bidSection);
     }
     container.appendChild(card);
 
