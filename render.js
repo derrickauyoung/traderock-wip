@@ -202,7 +202,7 @@ export async function authUser() {
     return user;
 }
 
-export function updateBidTable(user, bidValue) {
+export async function updateBidTable(user, bidValue) {
     const bidder = user?.email
     if (bidder) {
         console.log("User email:", bidder);
