@@ -81,13 +81,10 @@ export function renderItem(container, item, currentUser) {
     // Check if end date is past
     const end_date = document.createElement("div");
     end_date.className = "end-date";
-
     const endsAtDate = new Date(item.end_date);
     const formattedEndTime = endsAtDate.toLocaleString();
     const timeRemaining = timeUntil(item.end_date);
-
-    time_until = `Auction ${timeRemaining} (${formattedEndTime})`;
-    end_date.textContent = time_until;
+    end_date.textContent = `Auction ${timeRemaining} (${formattedEndTime})`;
     card.append(end_date);
     
     if (currentUser) {
