@@ -128,6 +128,7 @@ export function renderItem(container, item, currentUser) {
     container.appendChild(card);
 
     window.placeBuyNow = async function(id, card, price) {
+        console.info('Buy Now:', id, card, price)
         user = authUser();
         
         // Close the auction and update bid history
