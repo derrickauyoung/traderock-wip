@@ -6,9 +6,6 @@ document.addEventListener("DOMContentLoaded", () => {
     supabase.auth.getSession().then(({ data: { session } }) => {
         if (!session) {
             console.log("User not logged in.");
-            const loginout = document.getElementById("items-loginout");
-            loginout.textContents = "Login";
-            loginout.onClick = () => window.location.href = "login.html";
         }
     });    
 
@@ -46,9 +43,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     
     window.signOut = async function() {
-        const loginout = document.getElementById("items-loginout");
-        loginout.textContents = "Login";
-        loginout.onClick = () => window.location.href = "login.html";
         await supabase.auth.signOut();
         updateAuthStatus();
         window.location.href = "index.html";
