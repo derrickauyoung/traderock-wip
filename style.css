@@ -48,6 +48,7 @@ body {
     padding: 4px;
     background-color: #e8ebe9;
     text-align: left;
+    white-space: pre-line;
 }
 
 .bid-btn {
@@ -157,6 +158,8 @@ input[type="number"] {
   }
 
   .end-date {
+    background-color: #d1ccff;
+    padding: 8px;
     display: flex;
     justify-content: space-between;
   }
