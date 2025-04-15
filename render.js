@@ -51,6 +51,25 @@ export function renderItem(container, item, currentUser) {
     desc.className = "item-desc";
     desc.textContent = item.description;
 
+    card.appendChild(imgGallery);
+
+    // Store current index in memory
+    itemGalleryIndex[item.id] = 0;
+    itemGalleryImages[item.id] = item.image_urls || [];
+
+    card.appendChild(title);
+    card.appendChild(desc);
+
+    const bidSection = document.createElement("div");
+    bidSection.className = "bid-section";
+
+    // Buy now price
+    const buyNow = document.createElement("div");
+    buyNow.className = 'item-buynow';
+    buyNow.textContent = `Buy Now Price: $${item.buy_now}`;
+    bidSection.appendChild(buyNow);
+
+    // Auction Bid Info
     const priceInfo = document.createElement("div");
 
     const startingBidText = `<p><strong>Starting Bid:</strong> $${item.starting_bid}</p>`;
@@ -65,16 +84,7 @@ export function renderItem(container, item, currentUser) {
     }
 
     priceInfo.innerHTML = startingBidText + currentBidText;
-
-    card.appendChild(imgGallery);
-
-    // Store current index in memory
-    itemGalleryIndex[item.id] = 0;
-    itemGalleryImages[item.id] = item.image_urls || [];
-
-    card.appendChild(title);
-    card.appendChild(desc);
-    card.appendChild(priceInfo);
+    bidSection.appendChild(priceInfo);
 
     // Check if end date is past
     const end_date = document.createElement("div");
@@ -83,16 +93,7 @@ export function renderItem(container, item, currentUser) {
     const formattedEndTime = endsAtDate.toLocaleString();
     const timeRemaining = timeUntil(item.end_date);
     end_date.textContent = `Auction ${timeRemaining} (${formattedEndTime})`;
-    card.append(end_date);
-
-    const bidSection = document.createElement("div");
-    bidSection.className = "bid-section";
-
-    // Buy now price
-    const buyNow = document.createElement("div");
-    buyNow.className = 'item-buynow';
-    buyNow.textContent = `Buy Now Price: $${item.buy_now}`;
-    bidSection.appendChild(buyNow);
+    bidSection.append(end_date);
     
     if (currentUser) {
         const input = document.createElement("input");
@@ -116,8 +117,8 @@ export function renderItem(container, item, currentUser) {
             bidSection.appendChild(input);
             bidSection.appendChild(bidButton);
         }
-        card.appendChild(bidSection);
     }
+    card.appendChild(bidSection);
     container.appendChild(card);
 
     window.placeBuyNow = async function(id, card, price) {
