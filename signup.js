@@ -1,6 +1,6 @@
 import { supabase } from './supabaseClient.js';
   
-async function handleSignUp() {
+window.handleSignUp = async function() {
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
     const msg = document.getElementById("message");
