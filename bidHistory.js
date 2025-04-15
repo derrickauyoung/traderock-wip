@@ -4,8 +4,8 @@ export async function renderBidHistory(itemId, container, currentUser) {
     const wrapper = document.createElement("div");
     wrapper.className = "bid-history-wrapper";
     wrapper.innerHTML = `
-      <button class="toggle-history">Show Bid History</button>
-      <div class="bid-history hidden">
+      <button class="toggle-history">Hide Bid History</button>
+      <div class="bid-history shown">
         <h4>Bid History</h4>
         <ul class="bid-list"></ul>
       </div>
@@ -17,10 +17,10 @@ export async function renderBidHistory(itemId, container, currentUser) {
     const historyDiv = wrapper.querySelector(".bid-history");
   
     toggleBtn.addEventListener("click", () => {
-      historyDiv.classList.toggle("hidden");
-      toggleBtn.textContent = historyDiv.classList.contains("hidden")
-        ? "Show Bid History"
-        : "Hide Bid History";
+      historyDiv.classList.toggle("shown");
+      toggleBtn.textContent = historyDiv.classList.contains("shown")
+        ? "Hide Bid History"
+        : "Show Bid History";
     });
   
     async function updateBidHistory() {
