@@ -24,11 +24,12 @@ async function loadItem() {
         return;
     }
 
+    const { data: { user } } = await supabase.auth.getUser();
+
     container.innerHTML = ""; // Clear old items
-    const card = renderItem(container, item);
+    const card = renderItem(container, item, user);
 
     // Render bid history under each card
-    const { data: { user } } = await supabase.auth.getUser();
     renderBidHistory(item.id, card, user);
 }
 
