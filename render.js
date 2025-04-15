@@ -81,8 +81,15 @@ export function renderItem(container, item, currentUser) {
     // Check if end date is past
     const end_date = document.createElement("div");
     end_date.className = "end-date";
-    const end_date_text = `<p><strong>Auction ends:</strong> ${item.end_date}</p>`;
+    const end_date_text = `<p><strong>Auction ends:</strong></p>`;
     end_date.innerHTML = end_date_text;
+
+    const endsAtDate = new Date(item.end_date);
+    const formattedEndTime = endsAtDate.toLocaleString();
+    const timeRemaining = timeUntil(item.end_date);
+
+    time_until = `Ends ${timeRemaining} (${formattedEndTime})`;
+    end_date.textContent = time_until;
     card.append(end_date);
     
     if (currentUser) {
@@ -182,4 +189,29 @@ export function renderItems(items, currentUser) {
     items.forEach(item => {
         renderItem(container, item, currentUser)
     });
+}
+
+export function timeUntil(date) {
+    const now = new Date();
+    const future = new Date(date);
+    const seconds = Math.floor((future - now) / 1000);
+  
+    if (seconds <= 0) return "Ended";
+  
+    const intervals = {
+      year: 31536000,
+      month: 2592000,
+      day: 86400,
+      hour: 3600,
+      minute: 60,
+    };
+  
+    for (const [unit, secondsPer] of Object.entries(intervals)) {
+      const amount = Math.floor(seconds / secondsPer);
+      if (amount >= 1) {
+        return `in ${amount} ${unit}${amount > 1 ? 's' : ''}`;
+      }
+    }
+  
+    return "in a few seconds";
 }
