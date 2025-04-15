@@ -1,15 +1,5 @@
 <!DOCTYPE html>
 <html>
-<script>
-    const repo = "traderock"; // your actual repo name
-
-    if (window.location.hash.includes("access_token")) {
-        window.location.href = `/${repo}/index.html${window.location.hash}`;
-    } else {
-        // Show a custom 404 message or redirect home
-        window.location.href = `/${repo}/index.html`;
-    }
-</script>
 <head>
     <meta http-equiv="refresh" content="0; url=/index.html" />
 </head>
