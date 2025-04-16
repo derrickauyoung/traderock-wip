@@ -11,29 +11,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Expose supabase + placeBid globally if needed
     window.supabase = supabase;
-
-    window.signUp = async function() {
-        const email = document.getElementById("auth-email").value;
-        const password = document.getElementById("auth-password").value;
-        const { error } = await supabase.auth.signUp({ email, password });
-        if (error) {
-          alert("Sign Up Error: " + error.message);
-        } else {
-          alert("Successfully created account, logging in!");
-          signIn();
-        }
-    }
-      
-    window.signIn = async function() {
-        const email = document.getElementById("auth-email").value;
-        const password = document.getElementById("auth-password").value;
-        const { error } = await supabase.auth.signInWithPassword({ email, password });
-        if (error) {
-            alert("Login Error: " + error.message);
-        } else {
-            updateAuthStatus();
-        }
-    }
     
     window.signOut = async function() {
         await supabase.auth.signOut();
