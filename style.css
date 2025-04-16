@@ -231,6 +231,18 @@ input[type="number"] {
     display: block;
   }
 
+  .captcha-btn {
+    margin: 10px auto 0;
+    padding: 8px 12px;
+    background-color: #85c0ff;
+    color: rgb(91, 91, 91);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100px;
+    display: block;
+  }
+
   .login-body {
     font-family: sans-serif; 
     display: flex; 
