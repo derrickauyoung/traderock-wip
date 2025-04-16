@@ -342,3 +342,21 @@ export function timeUntil(date) {
   
     return "ends in a few seconds";
   }
+
+document.getElementById("captcha-form").addEventListener("submit", async function (e) {
+    e.preventDefault();
+  
+    const token = hcaptcha.getResponse();
+    if (!token) {
+      alert("Please complete the CAPTCHA");
+      return;
+    }
+  
+    const data = await verifyCaptcha(token);
+    if (data) {
+        console.log("CAPTCHA verified!");
+    // continue with rest of your form logic (like storing a bid or user input)
+    } else {
+        alert("❌ CAPTCHA failed.");
+    }
+});
