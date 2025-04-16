@@ -20,14 +20,14 @@
     <body class="login-body">
         <h2>Welcome to <strong>L-B-Yay</strong>.</h2>
         <h2>Login</h2>
-        <input class="login-input" type="email" id="email" placeholder="Email" required />
-        <input class="login-input" type="password" id="password" placeholder="Password" required />
         <form id="captcha-form">
           <!-- your form fields -->
           <div class="h-captcha" data-sitekey="e3f66718-0606-4dc0-ae0c-fd44270a8f62"></div>
           <button class="captcha-btn" type="submit">Submit</button>
         </form>
         <script src="https://hcaptcha.com/1/api.js" async defer></script>
+        <input class="login-input" type="email" id="email" placeholder="Email" required />
+        <input class="login-input" type="password" id="password" placeholder="Password" required />
         <button class="login-btn" onclick="handleLogin()">Log In</button>
 
         <p>Don’t have an account? <a href="signup.html">Sign up</a></p>
