@@ -1,23 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
-<meta http-equiv="Content-Security-Policy" content="
-  default-src 'self';
-  script-src 'self' https://js.hcaptcha.com https://hcaptcha.com https://cdn.jsdelivr.net;
-  style-src 'self' 'unsafe-inline';
-  img-src 'self' data: https:;
-  connect-src 'self' https://*.supabase.co;
-  frame-src https://hcaptcha.com https://*.hcaptcha.com;
-  object-src 'none';
-  base-uri 'self';
-">
 <head>
   <meta charset="UTF-8">
+  <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+    script-src 'self' https://js.hcaptcha.com https://hcaptcha.com https://cdn.jsdelivr.net;
+    style-src 'self' 'unsafe-inline';
+    img-src 'self' data: https:;
+    connect-src 'self' https://*.supabase.co;
+    frame-src https://hcaptcha.com https://*.hcaptcha.com;
+    object-src 'none';
+    base-uri 'self';
+  ">
   <title>Login</title>
   <script type="module" src="../script/login.js"></script>
   <style>
     body { font-family: sans-serif; display: flex; flex-direction: column; align-items: center; margin-top: 60px; }
     input { margin: 8px 0; padding: 8px; width: 250px; }
-    button { padding: 8px 16px; }
     #message { color: red; margin-top: 10px; }
   </style>
 </head>
@@ -29,10 +28,10 @@
         <form action="/submit" method="POST">
           <!-- your form fields -->
           <div class="h-captcha" data-sitekey="e3f66718-0606-4dc0-ae0c-fd44270a8f62"></div>
-          <button type="submit">Submit</button>
+          <button class="login-btn" type="submit">Submit</button>
         </form>
         <script src="https://hcaptcha.com/1/api.js" async defer></script>
-        <button onclick="handleLogin()">Log In</button>
+        <button class="login-btn" onclick="handleLogin()">Log In</button>
 
         <p>Don’t have an account? <a href="signup.html">Sign up</a></p>
         <p id="message"></p>
