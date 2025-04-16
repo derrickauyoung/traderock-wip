@@ -41,7 +41,9 @@ export function renderItem(container, item, currentUser) {
     imgGalleryBtns.appendChild(prevButton)
     imgGalleryBtns.appendChild(nextButton)
 
-    imgGallery.appendChild(imgGalleryBtns)
+    if (item.image_urls.length > 1) {
+        imgGallery.appendChild(imgGalleryBtns)
+    }
 
     const title = document.createElement("h3");
     const link = document.createElement("a");
