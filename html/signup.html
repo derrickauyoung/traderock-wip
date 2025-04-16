@@ -1,6 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://js.hcaptcha.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; frame-src https://hcaptcha.com https://*.hcaptcha.com;">
+<meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+    script-src 'self' https://js.hcaptcha.com https://hcaptcha.com https://cdn.jsdelivr.net;
+    style-src 'self' 'unsafe-inline';
+    img-src 'self' data: https:;
+    connect-src 'self' https://*.supabase.co;
+    frame-src https://hcaptcha.com https://*.hcaptcha.com;
+    frame-ancestors 'none';
+    object-src 'none';
+    base-uri 'self';
+">
 <head>
     <meta charset="UTF-8" />
     <title>Sign Up</title>
