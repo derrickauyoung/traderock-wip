@@ -14,29 +14,25 @@
     ">
     <title>Sign Up</title>
     <script type="module" src="../script/signup.js"></script>
-    <style>
-        body { font-family: sans-serif; display: flex; flex-direction: column; align-items: center; margin-top: 60px; }
-        input { margin: 8px 0; padding: 8px; width: 250px; }
-        #message { margin-top: 10px; color: green; }
-        #error { color: red; }
-    </style>
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="login-body">
     <h2>Welcome to <strong>L-B-Yay</strong>.</h2>
     <h2>Create an Account</h2>
-    <input type="email" id="email" placeholder="Email" required />
-    <input type="password" id="password" placeholder="Password (6+ chars)" required />
+    <input class="login-input" type="email" id="email" placeholder="Email" required />
+    <input class="login-input" type="password" id="password" placeholder="Password (6+ chars)" required />
     <form action="/submit" method="POST">
         <!-- your form fields -->
         <div class="h-captcha" data-sitekey="e3f66718-0606-4dc0-ae0c-fd44270a8f62"></div>
-        <button type="submit">Submit</button>
+        <button class="login-btn" type="submit">Submit</button>
     </form>
     <script src="https://hcaptcha.com/1/api.js" async defer></script>
     <button class="login-btn" onclick="handleSignUp()">Sign Up</button>
 
     <p>Already have an account? <a href="login.html">Log in</a></p>
 
-    <p id="message"></p>
-    <p id="error"></p>
+    <p class="login-message" id="message"></p>
+    <p class="login-error" id="error"></p>
 </body>
 </html>

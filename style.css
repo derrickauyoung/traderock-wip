@@ -230,3 +230,27 @@ input[type="number"] {
     width: 250px;
     display: block;
   }
+
+  .login-body {
+    font-family: sans-serif; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    margin-top: 60px; 
+  }
+
+  .login-input {
+    margin: 8px 0; 
+    padding: 8px; 
+    width: 250px; 
+  }
+
+  .login-error {
+    color: red; 
+    margin-top: 10px; 
+  }
+
+  .login-message { 
+    margin-top: 10px;
+    color: green; 
+  }

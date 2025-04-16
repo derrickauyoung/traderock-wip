@@ -14,17 +14,14 @@
   ">
   <title>Login</title>
   <script type="module" src="../script/login.js"></script>
-  <style>
-    body { font-family: sans-serif; display: flex; flex-direction: column; align-items: center; margin-top: 60px; }
-    input { margin: 8px 0; padding: 8px; width: 250px; }
-    #message { color: red; margin-top: 10px; }
-  </style>
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <link rel="stylesheet" href="style.css">
 </head>
-    <body>
+    <body class="login-body">
         <h2>Welcome to <strong>L-B-Yay</strong>.</h2>
         <h2>Login</h2>
-        <input type="email" id="email" placeholder="Email" required />
-        <input type="password" id="password" placeholder="Password" required />
+        <input class="login-input" type="email" id="email" placeholder="Email" required />
+        <input class="login-input" type="password" id="password" placeholder="Password" required />
         <form action="/submit" method="POST">
           <!-- your form fields -->
           <div class="h-captcha" data-sitekey="e3f66718-0606-4dc0-ae0c-fd44270a8f62"></div>
@@ -34,6 +31,6 @@
         <button class="login-btn" onclick="handleLogin()">Log In</button>
 
         <p>Don’t have an account? <a href="signup.html">Sign up</a></p>
-        <p id="message"></p>
+        <p class="login-error" id="message"></p>
     </body>
 </html>
