@@ -227,42 +227,47 @@ export async function updateBidTable(user, bidValue, id) {
     }
     
     // Check if there is already a bid at this price
-    const { bids, errorbids } = await supabase
+    const { data: bids, error: bidsError } = await supabase
         .from("bids")
-        .get({ amount })
-        .eq("item_id", id);
-    if (errorbids) {
-        console.error("Error retrieving current bids:", errorbids);
+        .select("amount")
+        .eq("item_id", id)
+        .eq("amount", bidValue);
+    if (bidsError) {
+        console.error("Error retrieving current bids:", bidsError);
         alert("❌ Something went wrong. Try again.");
         return;
     }
 
-    bids.forEach( bid => {
-        if (bidValue == amount) {
-            console.error("There was already a bid at this amount!");
-            alert("Sorry, there was already a bid at this amount!");
-            return;
-        }
-    });
+    if (bids.length > 0) {
+        console.warn("There is already a bid at this amount.");
+        alert("🚫 Someone already placed this exact bid. Try a different amount.");
+        return;
+    }
 
     // Update bid in Supabase
-    const { error } = await supabase
+    const { error: updateError } = await supabase
         .from("items")
         .update({ current_bid: bidValue })
         .eq("id", id);
     
-    if (error) {
-        console.error("Error updating bid:", error);
-        alert("❌ Something went wrong. Try again.");
+    if (updateError) {
+        console.error("Error updating bid:", updateError);
+        alert("❌ Failed to update item.");
         return;
     }
     
-    await supabase.from("bids").insert([{
+    const { error: insertError } = await supabase.from("bids").insert([{
         item_id: id,
         amount: bidValue,
         bidder_name: bidder,
-        user_id: user?.id // if you want to add that to your bids table
+        user_id: user?.id
     }]);
+
+    if (insertError) {
+        console.error("Error inserting bid:", insertError);
+        alert("❌ Failed to save bid. Try again.");
+        return;
+    }
 }
 
 // 🎨 Render auction items to the page
