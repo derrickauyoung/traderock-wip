@@ -227,12 +227,12 @@ export async function updateBidTable(user, bidValue, id) {
     }
     
     // Check if there is already a bid at this price
-    const { bids, error } = await supabase
+    const { bids, errorbids } = await supabase
         .from("bids")
         .get({ amount })
         .eq("item_id", id);
-    if (error) {
-        console.error("Error retrieving current bids:", error);
+    if (errorbids) {
+        console.error("Error retrieving current bids:", errorbids);
         alert("❌ Something went wrong. Try again.");
         return;
     }
