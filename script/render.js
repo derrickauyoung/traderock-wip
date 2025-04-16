@@ -8,6 +8,7 @@ import {
 } from './gallery.js';
 import { renderBidHistory } from './bidHistory.js';
 import { auction } from './constants.js';
+import { verifyCaptcha } from './verify-captcha.js';
 
 export function renderItem(container, item, currentUser) {
     const card = document.createElement("div");
@@ -139,8 +140,23 @@ export function renderItem(container, item, currentUser) {
             return;
         }
         
+        // Get hCaptcha token from the widget
+        const token = hcaptcha.getResponse();
+
+        if (!token) {
+            alert("❌ Please complete the hCaptcha.");
+            return;
+        }
+
+        // 🔐 Verify with Supabase Edge Function
+        const isHuman = await verifyCaptcha(token);
+        if (!isHuman) {
+            alert("❌ hCaptcha verification failed.");
+            return;
+        }
+
         // Close the auction and update bid history
-        updateBidTable(user, price, id);
+        await updateBidTable(user, price, id);
 
         // Update end time in Supabase
         const timestamptz = new Date().toISOString();
@@ -154,6 +170,8 @@ export function renderItem(container, item, currentUser) {
             alert("❌ Something went wrong. Try again.");
             return;
         }
+
+        hcaptcha.reset();
 
         // Update UI
         renderBidHistory(id, card, user);
@@ -189,8 +207,25 @@ export function renderItem(container, item, currentUser) {
             return;
         }
 
+        // Get hCaptcha token from the widget
+        const token = hcaptcha.getResponse();
+
+        if (!token) {
+            alert("❌ Please complete the hCaptcha.");
+            return;
+        }
+
+        // 🔐 Verify with Supabase Edge Function
+        const isHuman = await verifyCaptcha(token);
+        if (!isHuman) {
+            alert("❌ hCaptcha verification failed.");
+            return;
+        }
+
         // Update bid table
         updateBidTable(user, bidValue, id);
+
+        hcaptcha.reset();
         
         // Update UI
         renderBidHistory(id, card, user);

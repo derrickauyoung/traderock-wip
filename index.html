@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://js.hcaptcha.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; frame-src https://hcaptcha.com https://*.hcaptcha.com;">
 <head>
     <meta charset="UTF-8" />
     <title>L-B-Yay</title>
@@ -13,11 +14,17 @@
             <a href="#" id="logout-link">Log Out</a>
         </p>
         <p id="auth-status"></p>
+        <form action="/submit" method="POST">
+            <!-- your form fields -->
+            <div class="h-captcha" data-sitekey="e3f66718-0606-4dc0-ae0c-fd44270a8f62"></div>
+            <button type="submit">Submit</button>
+        </form>
+        <script src="https://hcaptcha.com/1/api.js" async defer></script>
     </div>
     <h2>Items for Sale</h2>
     <div id="items-container" class="items-grid"></div>
 
     <!-- Then load custom logic -->
-    <script type="module" src="script.js"></script>
+    <script type="module" src="script/script.js"></script>
 </body>
 </html>
