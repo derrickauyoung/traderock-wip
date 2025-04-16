@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-<meta http-equiv="Content-Security-Policy" content="
-    default-src 'self';
-    script-src 'self' https://js.hcaptcha.com https://hcaptcha.com https://cdn.jsdelivr.net;
-    style-src 'self' 'unsafe-inline';
-    img-src 'self' data: https:;
-    connect-src 'self' https://*.supabase.co;
-    frame-src https://hcaptcha.com https://*.hcaptcha.com;
-    object-src 'none';
-    base-uri 'self';
-">
 <head>
     <meta charset="UTF-8" />
+    <meta http-equiv="Content-Security-Policy" content="
+        default-src 'self';
+        script-src 'self' https://js.hcaptcha.com https://hcaptcha.com https://cdn.jsdelivr.net;
+        style-src 'self' 'unsafe-inline';
+        img-src 'self' data: https:;
+        connect-src 'self' https://*.supabase.co;
+        frame-src https://hcaptcha.com https://*.hcaptcha.com;
+        object-src 'none';
+        base-uri 'self';
+    ">
     <title>L-B-Yay</title>
     <link rel="stylesheet" href="style.css" />
 </head>
@@ -26,7 +26,7 @@
         <form action="/submit" method="POST">
             <!-- your form fields -->
             <div class="h-captcha" data-sitekey="e3f66718-0606-4dc0-ae0c-fd44270a8f62"></div>
-            <button type="submit">Submit</button>
+            <button class="login-btn" type="submit">Submit</button>
         </form>
         <script src="https://hcaptcha.com/1/api.js" async defer></script>
     </div>
