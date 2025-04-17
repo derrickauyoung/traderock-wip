@@ -21,19 +21,19 @@ window.handleLogin = async function() {
   
     if (!token) {
         alert("❌ Please complete the hCaptcha by logging out and in again.");
+        hcaptcha.reset();
         return;
     }
 
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
     const { error } = await supabase.auth.signInWithPassword({ email, password });
-
-    hcaptcha.reset();
   
     if (error) {
       document.getElementById("message").textContent = error.message;
+      hcaptcha.reset();
     } else {
-      window.location.href = "index.html"; // success redirect
+      window.location.href = "../index.html"; // success redirect
     }
 }
 
@@ -49,19 +49,20 @@ document.getElementById("captcha-form").addEventListener("submit", async functio
   
     if (!token) {
         alert("❌ Please complete the hCaptcha by logging out and in again.");
-        return;
+        hcaptcha.reset();
     }
   
     // 🔐 Verify with Supabase Edge Function
     const isHuman = await verifyCaptcha(token);
     if (!isHuman) {
         alert("❌ hCaptcha verification failed.");
-        return;
+        hcaptcha.reset();
     }
     
     if (isHuman) {
         statusEl.textContent = `CAPTCHA verified!`;
     } else {
         statusEl.textContent = "CAPTCHA failed.";
+        return;
     }
 });

@@ -7,6 +7,7 @@ window.handleSignUp = async function() {
 
     if (!token) {
         alert("❌ Please complete the hCaptcha by logging out and in again.");
+        hcaptcha.reset();
         return;
     }
 
@@ -25,11 +26,11 @@ window.handleSignUp = async function() {
 
     if (error) {
       err.textContent = error.message;
+      hcaptcha.reset();
     } else {
       msg.textContent = "Successfully created account!";
-      window.location.href = "index.html";
+      window.location.href = "../index.html";
     }
-    hcaptcha.reset();
 }
 
 document.querySelector('#signup-btn').addEventListener('click', handleSignUp);
@@ -44,19 +45,20 @@ document.getElementById("captcha-form").addEventListener("submit", async functio
 
   if (!token) {
       alert("❌ Please complete the hCaptcha by logging out and in again.");
-      return;
+      hcaptcha.reset();
   }
 
   // 🔐 Verify with Supabase Edge Function
   const isHuman = await verifyCaptcha(token);
   if (!isHuman) {
       alert("❌ hCaptcha verification failed.");
-      return;
+      hcaptcha.reset();
   }
   
   if (isHuman) {
       statusEl.textContent = `CAPTCHA verified!`;
   } else {
       statusEl.textContent = "CAPTCHA failed.";
+      return;
   }
 });
