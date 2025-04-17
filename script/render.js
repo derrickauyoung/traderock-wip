@@ -165,7 +165,7 @@ export function renderItem(container, item, currentUser) {
         // Update UI
         renderBidHistory(id, card, user);
         const buynowbtn = document.getElementById(`bnbtn-${id}`);
-        const seller_name = document.getElementById(`seller-${id}`).dataset.seller_name;
+        const seller_name = document.getElementById(`seller-${id}`)?.dataset?.seller_name || "(unknown)";
         buynowbtn.remove();
         alert("✅ Congrats on your purchase! Please contact seller:", seller_name);
     };
