@@ -86,7 +86,6 @@ export function renderItem(container, item, currentUser) {
         bnButton.id = `bnbtn-${item.id}`;
         bnButton.className = "bn-btn";
         bnButton.textContent = "Request Now";
-        console.log("🧩 built parameters:", item.id, card, item.buy_now, item.seller_name);
         bnButton.onclick = () => placeBuyNow(item.id, card, item.buy_now, item.seller_name);
         bidSection.appendChild(bnButton);
     }
@@ -142,7 +141,6 @@ export function renderItem(container, item, currentUser) {
 }
 
 window.placeBuyNow = async function(id, card, price, seller_name) {
-    console.log("🧩 clicked parameters:", id, card, price, seller_name);
     const user = await authUser();
 
     if (!user) {
@@ -170,7 +168,7 @@ window.placeBuyNow = async function(id, card, price, seller_name) {
     renderBidHistory(id, card, user);
     const buynowbtn = document.getElementById(`bnbtn-${id}`);
     buynowbtn.remove();
-    alert("✅ Congrats on your purchase! Please contact seller:", seller_name);
+    alert("✅ Congrats on your purchase! Please contact seller: " + seller_name);
 };
 
 // Expose this function globally
