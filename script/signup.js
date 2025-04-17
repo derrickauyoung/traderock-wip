@@ -6,7 +6,7 @@ window.handleSignUp = async function() {
     const token = hcaptcha.getResponse();
 
     if (!token) {
-        alert("❌ Please complete the hCaptcha by logging out and in again.");
+        alert("❌ Please complete the CAPTCHA challenge.");
         hcaptcha.reset();
         return;
     }
@@ -44,14 +44,14 @@ document.getElementById("captcha-form").addEventListener("submit", async functio
   const token = hcaptcha.getResponse();
 
   if (!token) {
-      alert("❌ Please complete the hCaptcha by logging out and in again.");
+      alert("❌ Failed to retrieve CAPTCHA token. Try again or contact admin.");
       hcaptcha.reset();
   }
 
   // 🔐 Verify with Supabase Edge Function
   const isHuman = await verifyCaptcha(token);
   if (!isHuman) {
-      alert("❌ hCaptcha verification failed.");
+      alert("❌ CAPTCHA verification failed.");
       hcaptcha.reset();
   }
   
