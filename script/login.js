@@ -21,7 +21,7 @@ window.handleLogin = async function() {
     const token = hcaptcha.getResponse();
 
     if (!token) {
-        alert("❌ Please complete the hCaptcha.");
+        alert("❌ Please complete the hCaptcha by logging out and in again.");
         return;
     }
 
@@ -50,14 +50,15 @@ document.getElementById("captcha-form").addEventListener("submit", async functio
   
     const token = hcaptcha.getResponse();
     if (!token) {
-      alert("Please complete the CAPTCHA");
+      alert("Please complete the hCaptcha by logging out and in again.");
       return;
     }
   
     const data = await verifyCaptcha(token);
     if (data) {
         console.log("CAPTCHA verified!");
-    // continue with rest of your form logic (like storing a bid or user input)
+        const button = document.getElementById("login-captcha-submit")
+        button.hidden = true;
     } else {
         alert("❌ CAPTCHA failed.");
     }
