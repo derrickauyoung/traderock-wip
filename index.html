@@ -2,14 +2,25 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
+    <meta http-equiv="Content-Security-Policy" content="
+        default-src 'self';
+        script-src 'self' https://js.hcaptcha.com https://hcaptcha.com https://cdn.jsdelivr.net;
+        style-src 'self' 'unsafe-inline';
+        img-src 'self' data: https:;
+        connect-src 'self' https://*.supabase.co;
+        frame-src https://hcaptcha.com https://*.hcaptcha.com;
+        object-src 'none';
+        base-uri 'self';
+    ">
     <title>L-B-Yay</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
     <link rel="stylesheet" href="style.css" />
 </head>
 <body>
     <div id="auth-container">
         <h1>Welcome to L-B-Yay.</h1>
         <p class="auth-links">
-            <a href="login.html">Log In</a>
+            <a href="html/login.html">Log In</a>
             <a href="#" id="logout-link">Log Out</a>
         </p>
         <p id="auth-status"></p>
@@ -18,6 +29,6 @@
     <div id="items-container" class="items-grid"></div>
 
     <!-- Then load custom logic -->
-    <script type="module" src="script.js"></script>
+    <script type="module" src="script/script.js"></script>
 </body>
 </html>
