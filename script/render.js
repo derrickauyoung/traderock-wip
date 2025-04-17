@@ -47,7 +47,7 @@ export function renderItem(container, item, currentUser) {
 
     const title = document.createElement("h3");
     const link = document.createElement("a");
-    link.href = `html/item.html?id=${item.id}`;
+    link.href = `item.html?id=${item.id}`;
     link.textContent = item.title;
     title.appendChild(link);
 
