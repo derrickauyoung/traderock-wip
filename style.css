@@ -284,3 +284,7 @@ input[type="number"] {
     margin-top: 10px;
     color: green; 
   }
+
+  .seller-name {
+    font-style: italic;
+  }

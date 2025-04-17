@@ -51,6 +51,11 @@ export function renderItem(container, item, currentUser) {
     link.textContent = item.title;
     title.appendChild(link);
 
+    const seller = document.createElement("p");
+    seller.id = `seller-${id}`;
+    seller.className = "seller-name";
+    seller.textContent = `Seller: ${item.seller_name}`;
+
     const desc = document.createElement("div");
     desc.className = "item-desc";
     desc.textContent = item.description;
@@ -158,8 +163,9 @@ export function renderItem(container, item, currentUser) {
         // Update UI
         renderBidHistory(id, card, user);
         const buynowbtn = document.getElementById(`bnbtn-${id}`);
+        const seller = document.getElementById(`seller-${id}`).replace(/^seller:\s*/i, "").trim();
         buynowbtn.remove();
-        alert("✅ Congrats on your purchase! Please contact seller.");
+        alert("✅ Congrats on your purchase! Please contact seller:", seller);
     };
 
     // Expose this function globally
