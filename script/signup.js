@@ -57,6 +57,7 @@ document.getElementById("captcha-form").addEventListener("submit", async functio
   
   if (isHuman) {
       statusEl.textContent = `CAPTCHA verified!`;
+      sessionStorage.setItem('hcaptchaToken', token);
   } else {
       statusEl.textContent = "CAPTCHA failed.";
       return;

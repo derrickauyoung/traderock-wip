@@ -155,8 +155,6 @@ export function renderItem(container, item, currentUser) {
             return;
         }
 
-        hcaptcha.reset();
-
         // Update UI
         renderBidHistory(id, card, user);
         const buynowbtn = document.getElementById(`bnbtn-${id}`);
@@ -193,8 +191,6 @@ export function renderItem(container, item, currentUser) {
 
         // Update bid table
         updateBidTable(user, bidValue, id);
-
-        hcaptcha.reset();
         
         // Update UI
         renderBidHistory(id, card, user);
@@ -223,7 +219,7 @@ export async function authUser() {
 
 export async function updateBidTable(user, bidValue, id) {
     // Get hCaptcha token from the widget
-    const token = hcaptcha.getResponse();
+    const token = sessionStorage.getItem('hcaptchaToken');
 
     if (!token) {
         alert("❌ Please complete the hCaptcha by logging out and in again.");
