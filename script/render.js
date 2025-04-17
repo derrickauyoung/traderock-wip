@@ -164,7 +164,7 @@ export function renderItem(container, item, currentUser) {
         // Update UI
         renderBidHistory(id, card, user);
         const buynowbtn = document.getElementById(`bnbtn-${id}`);
-        const seller = document.getElementById(`seller-${id}`).replace(/^seller:\s*/i, "").trim();
+        const seller = document.getElementById(`seller-${id}`).textContent.replace(/^seller:\s*/i, "").trim();
         buynowbtn.remove();
         alert("✅ Congrats on your purchase! Please contact seller:", seller);
     };
