@@ -2,6 +2,8 @@ import { supabase } from './supabaseClient.js';
 import { verifyCaptcha } from './verify-captcha.js';
 
 window.handleSignUp = async function() {
+    updateCapStatus();
+
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
     const msg = document.getElementById("message");
@@ -9,21 +11,6 @@ window.handleSignUp = async function() {
   
     msg.textContent = "Creating account, please wait ...";
     err.textContent = "";
-  
-    // Get hCaptcha token from the widget
-    const token = hcaptcha.getResponse();
-
-    if (!token) {
-        alert("❌ Please complete the hCaptcha by logging out and in again.");
-        return;
-    }
-
-    // 🔐 Verify with Supabase Edge Function
-    const isHuman = await verifyCaptcha(token);
-    if (!isHuman) {
-        alert("❌ hCaptcha verification failed.");
-        return;
-    }
 
     const { data, error } = await supabase.auth.signUp({
       email,
@@ -37,6 +24,32 @@ window.handleSignUp = async function() {
       window.location.href = "index.html";
     }
     hcaptcha.reset();
+}
+
+window.updateCapStatus = async function() {
+  
+  const statusEl = document.getElementById("captcha-status");
+
+  // Get hCaptcha token from the widget
+  const token = hcaptcha.getResponse();
+
+  if (!token) {
+      alert("❌ Please complete the hCaptcha by logging out and in again.");
+      return;
+  }
+
+  // 🔐 Verify with Supabase Edge Function
+  const isHuman = await verifyCaptcha(token);
+  if (!isHuman) {
+      alert("❌ hCaptcha verification failed.");
+      return;
+  }
+  
+  if (isHuman) {
+      statusEl.textContent = `CAPTCHA verified!`;
+  } else {
+      statusEl.textContent = "CAPTCHA failed.";
+  }
 }
 
 document.querySelector('#signup-btn').addEventListener('click', handleSignUp);

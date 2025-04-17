@@ -17,20 +17,7 @@ async function checkLogin() {
 checkLogin();
 
 window.handleLogin = async function() {
-    // Get hCaptcha token from the widget
-    const token = hcaptcha.getResponse();
-
-    if (!token) {
-        alert("❌ Please complete the hCaptcha by logging out and in again.");
-        return;
-    }
-
-    // 🔐 Verify with Supabase Edge Function
-    const isHuman = await verifyCaptcha(token);
-    if (!isHuman) {
-        alert("❌ hCaptcha verification failed.");
-        return;
-    }
+    updateCapStatus();
 
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
@@ -43,6 +30,32 @@ window.handleLogin = async function() {
     } else {
       window.location.href = "index.html"; // success redirect
     }
+}
+
+window.updateCapStatus = async function() {
+  
+  const statusEl = document.getElementById("captcha-status");
+
+  // Get hCaptcha token from the widget
+  const token = hcaptcha.getResponse();
+
+  if (!token) {
+      alert("❌ Please complete the hCaptcha by logging out and in again.");
+      return;
+  }
+
+  // 🔐 Verify with Supabase Edge Function
+  const isHuman = await verifyCaptcha(token);
+  if (!isHuman) {
+      alert("❌ hCaptcha verification failed.");
+      return;
+  }
+  
+  if (isHuman) {
+      statusEl.textContent = `CAPTCHA verified!`;
+  } else {
+      statusEl.textContent = "CAPTCHA failed.";
+  }
 }
 
 document.querySelector('#login-btn').addEventListener('click', handleLogin);
