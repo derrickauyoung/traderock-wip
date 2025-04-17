@@ -1,7 +1,6 @@
 import { supabase } from '../supabaseClient.js';
 import { renderItem } from './render.js';
 import { renderBidHistory } from './bidHistory.js';
-import { verifyCaptcha } from './verify-captcha.js';
 
 async function loadItem() {
     const params = new URLSearchParams(window.location.search);
@@ -36,21 +35,3 @@ async function loadItem() {
 
 
 loadItem();
-
-document.getElementById("captcha-form").addEventListener("submit", async function (e) {
-    e.preventDefault();
-  
-    const token = hcaptcha.getResponse();
-    if (!token) {
-      alert("Please complete the CAPTCHA");
-      return;
-    }
-  
-    const data = await verifyCaptcha(token);
-    if (data) {
-        console.log("CAPTCHA verified!");
-    // continue with rest of your form logic (like storing a bid or user input)
-    } else {
-        alert("❌ CAPTCHA failed.");
-    }
-});

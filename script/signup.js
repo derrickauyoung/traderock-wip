@@ -1,5 +1,6 @@
 import { supabase } from './supabaseClient.js';
-  
+import { verifyCaptcha } from './verify-captcha.js';
+
 window.handleSignUp = async function() {
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
@@ -37,3 +38,21 @@ window.handleSignUp = async function() {
     }
     hcaptcha.reset();
 }
+
+document.getElementById("captcha-form").addEventListener("submit", async function (e) {
+    e.preventDefault();
+  
+    const token = hcaptcha.getResponse();
+    if (!token) {
+      alert("Please complete the CAPTCHA");
+      return;
+    }
+  
+    const data = await verifyCaptcha(token);
+    if (data) {
+        console.log("CAPTCHA verified!");
+    // continue with rest of your form logic (like storing a bid or user input)
+    } else {
+        alert("❌ CAPTCHA failed.");
+    }
+});
