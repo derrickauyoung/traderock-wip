@@ -2,7 +2,7 @@
 
 export async function sendMail(buyerEmail, sellerName, itemTitle, price, ccEmails=[]) {
 
-    await fetch("https://napmuiqctvbegldujfbb/functions/v1/send-confirmation-email", {
+    await fetch("https://napmuiqctvbegldujfbb.supabase.co/functions/v1/send-confirmation-email", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
