@@ -1,4 +1,4 @@
-import { supabase } from '../supabaseClient.js';
+import { supabase } from './supabaseClient.js';
 import { renderItem } from './render.js';
 import { renderBidHistory } from './bidHistory.js';
 
