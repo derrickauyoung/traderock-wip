@@ -52,7 +52,7 @@ export function renderItem(container, item, currentUser) {
     title.appendChild(link);
 
     const seller = document.createElement("div");
-    seller.id = `seller-${id}`;
+    seller.id = `seller-${item.id}`;
     seller.className = "seller-name";
     seller.textContent = `Seller: ${item.seller_name}`;
 
