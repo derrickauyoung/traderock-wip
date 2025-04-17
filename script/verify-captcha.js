@@ -5,7 +5,6 @@ export async function verifyCaptcha(token) {
       body: JSON.stringify({ token }),
       headers: {
         "Content-Type": "application/json",
-        'Authorization': `Bearer ${token}`,
       }
     });
   
