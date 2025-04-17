@@ -87,7 +87,7 @@ export function renderItem(container, item, currentUser) {
         bnButton.id = `bnbtn-${item.id}`;
         bnButton.className = "bn-btn";
         bnButton.textContent = "Request Now";
-        bnButton.onclick = () => placeBuyNow(item.id, card, item.buy_now, item.seller_name, item.seller_email);
+        bnButton.onclick = () => placeBuyNow(item.id, card, item.buy_now, item.seller_name, item.title, item.seller_email);
         bidSection.appendChild(bnButton);
     }
 
@@ -141,7 +141,7 @@ export function renderItem(container, item, currentUser) {
     return card;
 }
 
-window.placeBuyNow = async function(id, card, price, seller_name, seller_email) {
+window.placeBuyNow = async function(id, card, price, seller_name, title, seller_email) {
     const user = await authUser();
 
     if (!user) {
@@ -171,7 +171,7 @@ window.placeBuyNow = async function(id, card, price, seller_name, seller_email) 
     buynowbtn.remove();
 
     // Send mail
-    sendMail(user.email, seller_name, item.title, price, ccEmails=[seller_email])
+    sendMail(user.email, seller_name, title, price, ccEmails=[seller_email])
 
     alert("✅ Congrats on your purchase! Please contact seller: " + seller_name);
 };
