@@ -45,6 +45,8 @@ window.handleLogin = async function() {
     }
 }
 
+document.querySelector('#login-btn').addEventListener('click', handleLogin);
+
 document.getElementById("captcha-form").addEventListener("submit", async function (e) {
     e.preventDefault();
   

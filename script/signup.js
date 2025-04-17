@@ -39,6 +39,8 @@ window.handleSignUp = async function() {
     hcaptcha.reset();
 }
 
+document.querySelector('#signup-btn').addEventListener('click', handleSignUp);
+
 document.getElementById("captcha-form").addEventListener("submit", async function (e) {
   e.preventDefault();
 
