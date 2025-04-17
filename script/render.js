@@ -8,6 +8,7 @@ import {
 } from './gallery.js';
 import { renderBidHistory } from './bidHistory.js';
 import { auction } from './constants.js';
+import { verifyCaptcha } from './verify-captcha.js';
 
 export function renderItem(container, item, currentUser) {
     const card = document.createElement("div");
