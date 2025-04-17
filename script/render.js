@@ -54,7 +54,6 @@ export function renderItem(container, item, currentUser) {
     const seller = document.createElement("div");
     seller.id = `seller-${item.id}`;
     seller.className = "seller-name";
-    seller.dataset.seller_name = item.seller_name;
     seller.textContent = `Seller: ${item.seller_name}`;
 
     const desc = document.createElement("div");
@@ -87,7 +86,7 @@ export function renderItem(container, item, currentUser) {
         bnButton.id = `bnbtn-${item.id}`;
         bnButton.className = "bn-btn";
         bnButton.textContent = "Request Now";
-        bnButton.onclick = () => placeBuyNow(item.id, card, item.buy_now);
+        bnButton.onclick = () => placeBuyNow(item.id, card, item.buy_now, item.seller_name);
         bidSection.appendChild(bnButton);
     }
 
@@ -138,7 +137,7 @@ export function renderItem(container, item, currentUser) {
     card.appendChild(bidSection);
     container.appendChild(card);
 
-    window.placeBuyNow = async function(id, card, price) {
+    window.placeBuyNow = async function(id, card, price, seller_name) {
         const user = await authUser();
 
         if (!user) {
@@ -165,7 +164,6 @@ export function renderItem(container, item, currentUser) {
         // Update UI
         renderBidHistory(id, card, user);
         const buynowbtn = document.getElementById(`bnbtn-${id}`);
-        const seller_name = document.getElementById(`seller-${id}`)?.dataset?.seller_name || "(unknown)";
         buynowbtn.remove();
         alert("✅ Congrats on your purchase! Please contact seller:", seller_name);
     };
