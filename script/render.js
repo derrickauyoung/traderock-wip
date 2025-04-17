@@ -67,6 +67,7 @@ export function renderItem(container, item, currentUser) {
     itemGalleryImages[item.id] = item.image_urls || [];
 
     card.appendChild(title);
+    card.appendChild(seller);
     card.appendChild(desc);
 
     const bidSection = document.createElement("div");
