@@ -2,7 +2,13 @@ import { supabase } from './supabaseClient.js';
 import { verifyCaptcha } from './verify-captcha.js';
 
 window.handleSignUp = async function() {
-    updateCapStatus();
+    // Get hCaptcha token from the widget
+    const token = hcaptcha.getResponse();
+
+    if (!token) {
+        alert("❌ Please complete the hCaptcha by logging out and in again.");
+        return;
+    }
 
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
@@ -26,8 +32,11 @@ window.handleSignUp = async function() {
     hcaptcha.reset();
 }
 
-window.updateCapStatus = async function() {
-  
+document.querySelector('#signup-btn').addEventListener('click', handleSignUp);
+
+document.getElementById("captcha-form").addEventListener("submit", async function (e) {
+  e.preventDefault();
+
   const statusEl = document.getElementById("captcha-status");
 
   // Get hCaptcha token from the widget
@@ -49,26 +58,5 @@ window.updateCapStatus = async function() {
       statusEl.textContent = `CAPTCHA verified!`;
   } else {
       statusEl.textContent = "CAPTCHA failed.";
-  }
-}
-
-document.querySelector('#signup-btn').addEventListener('click', handleSignUp);
-
-document.getElementById("captcha-form").addEventListener("submit", async function (e) {
-  e.preventDefault();
-
-  const token = hcaptcha.getResponse();
-  if (!token) {
-    alert("Please complete the hCaptcha by logging out and in again.");
-    return;
-  }
-
-  const data = await verifyCaptcha(token);
-  if (data) {
-      console.log("CAPTCHA verified!");
-      const button = document.getElementById("login-captcha-submit")
-      button.hidden = true;
-  } else {
-      alert("❌ CAPTCHA failed.");
   }
 });
