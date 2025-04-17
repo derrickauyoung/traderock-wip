@@ -54,7 +54,7 @@ export function renderItem(container, item, currentUser) {
     const seller = document.createElement("div");
     seller.id = `seller-${item.id}`;
     seller.className = "seller-name";
-    seller.dataset = item.seller_name;
+    seller.dataset.seller_name = item.seller_name;
     seller.textContent = `Seller: ${item.seller_name}`;
 
     const desc = document.createElement("div");
@@ -165,7 +165,7 @@ export function renderItem(container, item, currentUser) {
         // Update UI
         renderBidHistory(id, card, user);
         const buynowbtn = document.getElementById(`bnbtn-${id}`);
-        const seller = document.getElementById(`seller-${id}`).dataset.seller;
+        const seller = document.getElementById(`seller-${id}`).dataset.seller_name;
         buynowbtn.remove();
         alert("✅ Congrats on your purchase! Please contact seller:", seller);
     };
