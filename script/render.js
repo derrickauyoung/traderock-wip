@@ -51,6 +51,11 @@ export function renderItem(container, item, currentUser) {
     link.textContent = item.title;
     title.appendChild(link);
 
+    const seller = document.createElement("div");
+    seller.id = `seller-${item.id}`;
+    seller.className = "seller-name";
+    seller.textContent = `Seller: ${item.seller_name}`;
+
     const desc = document.createElement("div");
     desc.className = "item-desc";
     desc.textContent = item.description;
@@ -62,6 +67,7 @@ export function renderItem(container, item, currentUser) {
     itemGalleryImages[item.id] = item.image_urls || [];
 
     card.appendChild(title);
+    card.appendChild(seller);
     card.appendChild(desc);
 
     const bidSection = document.createElement("div");
@@ -80,7 +86,7 @@ export function renderItem(container, item, currentUser) {
         bnButton.id = `bnbtn-${item.id}`;
         bnButton.className = "bn-btn";
         bnButton.textContent = "Request Now";
-        bnButton.onclick = () => placeBuyNow(item.id, card, item.buy_now);
+        bnButton.onclick = () => placeBuyNow(item.id, card, item.buy_now, item.seller_name);
         bidSection.appendChild(bnButton);
     }
 
@@ -131,75 +137,75 @@ export function renderItem(container, item, currentUser) {
     card.appendChild(bidSection);
     container.appendChild(card);
 
-    window.placeBuyNow = async function(id, card, price) {
-        const user = await authUser();
-
-        if (!user) {
-            console.error("User not logged in.");
-            return;
-        }
-
-        // Close the auction and update bid history
-        await updateBidTable(user, price, id);
-
-        // Update end time in Supabase
-        const timestamptz = new Date().toISOString();
-        const { error } = await supabase
-            .from("items")
-            .update({ end_date: timestamptz })
-            .eq("id", id);
-        
-        if (error) {
-            console.error("Error updating end date:", error);
-            alert("❌ Something went wrong. Try again.");
-            return;
-        }
-
-        // Update UI
-        renderBidHistory(id, card, user);
-        const buynowbtn = document.getElementById(`bnbtn-${id}`);
-        buynowbtn.remove();
-        alert("✅ Congrats on your purchase! Please contact seller.");
-    };
-
-    // Expose this function globally
-    window.placeBid = async function(id, card) {
-        const user = await authUser();
-
-        if (!user) {
-            console.error("User not logged in.");
-            return;
-        }
-
-        const inputEl = document.getElementById(`input-${id}`);
-        const bidValue = parseFloat(inputEl.value);
-        
-        if (isNaN(bidValue)) {
-            alert("❌ Please enter a valid number.");
-            return;
-        }
-        
-        // Get current item info from the DOM
-        const currentBidEl = document.getElementById(`bid-${id}`);
-        const currentBidText = currentBidEl.innerText;
-        const currentBid = parseFloat(currentBidText.replace("Current Bid: $", ""));
-        
-        if (bidValue <= currentBid) {
-            alert("🚫 Your bid must be higher than the current bid.");
-            return;
-        }
-
-        // Update bid table
-        updateBidTable(user, bidValue, id);
-        
-        // Update UI
-        renderBidHistory(id, card, user);
-        inputEl.value = "";
-        alert("✅ Bid placed successfully!");
-    };
-
     return card;
 }
+
+window.placeBuyNow = async function(id, card, price, seller_name) {
+    const user = await authUser();
+
+    if (!user) {
+        console.error("User not logged in.");
+        return;
+    }
+
+    // Close the auction and update bid history
+    await updateBidTable(user, price, id);
+
+    // Update end time in Supabase
+    const timestamptz = new Date().toISOString();
+    const { error } = await supabase
+        .from("items")
+        .update({ end_date: timestamptz })
+        .eq("id", id);
+    
+    if (error) {
+        console.error("Error updating end date:", error);
+        alert("❌ Something went wrong. Try again.");
+        return;
+    }
+
+    // Update UI
+    renderBidHistory(id, card, user);
+    const buynowbtn = document.getElementById(`bnbtn-${id}`);
+    buynowbtn.remove();
+    alert("✅ Congrats on your purchase! Please contact seller: " + seller_name);
+};
+
+// Expose this function globally
+window.placeBid = async function(id, card) {
+    const user = await authUser();
+
+    if (!user) {
+        console.error("User not logged in.");
+        return;
+    }
+
+    const inputEl = document.getElementById(`input-${id}`);
+    const bidValue = parseFloat(inputEl.value);
+    
+    if (isNaN(bidValue)) {
+        alert("❌ Please enter a valid number.");
+        return;
+    }
+    
+    // Get current item info from the DOM
+    const currentBidEl = document.getElementById(`bid-${id}`);
+    const currentBidText = currentBidEl.innerText;
+    const currentBid = parseFloat(currentBidText.replace("Current Bid: $", ""));
+    
+    if (bidValue <= currentBid) {
+        alert("🚫 Your bid must be higher than the current bid.");
+        return;
+    }
+
+    // Update bid table
+    updateBidTable(user, bidValue, id);
+    
+    // Update UI
+    renderBidHistory(id, card, user);
+    inputEl.value = "";
+    alert("✅ Bid placed successfully!");
+};
 
 export async function authUser() {
     const {
