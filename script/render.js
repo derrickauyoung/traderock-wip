@@ -171,7 +171,7 @@ window.placeBuyNow = async function(id, card, price, seller_name, title, seller_
     buynowbtn.remove();
 
     // Send mail
-    sendMail(user.email, seller_name, title, price, ccEmails=[seller_email])
+    sendMail(user.email, seller_name, title, price, [seller_email])
 
     alert("✅ Congrats on your purchase! Please contact seller: " + seller_name);
 };
