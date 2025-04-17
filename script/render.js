@@ -86,6 +86,7 @@ export function renderItem(container, item, currentUser) {
         bnButton.id = `bnbtn-${item.id}`;
         bnButton.className = "bn-btn";
         bnButton.textContent = "Request Now";
+        console.log("seller_name for item", item.id, "is:", item.seller_name);
         bnButton.onclick = () => placeBuyNow(item.id, card, item.buy_now, item.seller_name);
         bidSection.appendChild(bnButton);
     }
