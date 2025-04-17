@@ -9,5 +9,11 @@ export async function verifyCaptcha(token) {
     });
   
     const result = await res.json();
+    console.log("Captcha verification result:", result);
+
+    if (!res.ok) {
+    throw new Error(`Captcha failed: ${JSON.stringify(result)}`);
+    }
+
     return result.success;
   }
