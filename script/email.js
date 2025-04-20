@@ -5,7 +5,12 @@ export async function sendMail(buyerEmail, sellerName, itemTitle, price, ccEmail
     const { data: sessionData } = await supabase.auth.getSession();
     const accessToken = sessionData?.session?.access_token;
 
-    const response = await fetch("https://napmuiqctvbegldujfbb.supabase.co/functions/v1/send-confirmation-email", {
+    const baseUrl =
+    window.location.hostname === "localhost"
+      ? "http://localhost:54321/functions/v1"
+      : "https://napmuiqctvbegldujfbb.supabase.co/functions/v1";
+
+    const response = await fetch(`${baseUrl}/send-confirmation-email`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
