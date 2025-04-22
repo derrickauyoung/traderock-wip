@@ -75,14 +75,9 @@ export function renderItem(container, item, currentUser) {
 
     // Buy now price
     const buyNow = document.createElement("div");
+    buyNow.id = `item-buynow-${item.id}`;
     buyNow.className = 'item-buynow';
     buyNow.textContent = `$${item.buy_now}`;
-
-    // Check if there was a successful bid at the buy now price
-    const bids = checkBuyNow(item)
-    if (bids.length > 0) {
-        buyNow.textContent = "SOLD";
-    }
     bidSection.appendChild(buyNow);
 
     const datenow = Date.now();
@@ -156,6 +151,12 @@ window.checkBuyNow = async function(item) {
         console.error("Error retrieving current bids:", bidsError);
         alert("❌ Something went wrong. Try again.");
         return;
+    }
+
+    // Check if there was a successful bid at the buy now price
+    if (bids.length > 0) {
+        const buyNow = document.getElementById(`item-buynow-${item.id}`)
+        buyNow.textContent = "SOLD";
     }
 
     return bids
@@ -314,6 +315,7 @@ export function renderItems(items, currentUser) {
   
     items.forEach(item => {
         renderItem(container, item, currentUser)
+        checkBuyNow(item)
     });
 }
 
