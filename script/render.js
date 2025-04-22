@@ -158,8 +158,6 @@ window.checkBuyNow = async function(item) {
         const buyNow = document.getElementById(`item-buynow-${item.id}`)
         buyNow.textContent = "SOLD";
     }
-
-    return bids
 }
 
 window.placeBuyNow = async function(id, card, price, seller_name) {
