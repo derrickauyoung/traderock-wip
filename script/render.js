@@ -77,6 +77,12 @@ export function renderItem(container, item, currentUser) {
     const buyNow = document.createElement("div");
     buyNow.className = 'item-buynow';
     buyNow.textContent = `$${item.buy_now}`;
+
+    // Check if there was a successful bid at the buy now price
+    const bids = checkBuyNow(item)
+    if (bids.length > 0) {
+        buyNow.textContent = "SOLD";
+    }
     bidSection.appendChild(buyNow);
 
     const datenow = Date.now();
@@ -138,6 +144,21 @@ export function renderItem(container, item, currentUser) {
     container.appendChild(card);
 
     return card;
+}
+
+window.checkBuyNow = async function(item) {
+    const { data: bids, error: bidsError } = await supabase
+        .from("bids")
+        .select("amount")
+        .eq("item_id", item.id)
+        .eq("amount", item.buy_now);
+    if (bidsError) {
+        console.error("Error retrieving current bids:", bidsError);
+        alert("❌ Something went wrong. Try again.");
+        return;
+    }
+
+    return bids
 }
 
 window.placeBuyNow = async function(id, card, price, seller_name) {
