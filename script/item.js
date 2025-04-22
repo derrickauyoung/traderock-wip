@@ -28,6 +28,7 @@ async function loadItem() {
 
     container.innerHTML = ""; // Clear old items
     const card = renderItem(container, item, user);
+    checkBuyNow(item)
 
     // Render bid history under each card
     renderBidHistory(item.id, card, user);
