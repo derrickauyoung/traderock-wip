@@ -4,12 +4,13 @@ import {
     nextImage,
     prevImage,
     itemGalleryImages,
-    itemGalleryIndex
+    itemGalleryIndex,
+    setImageIfExists
 } from './gallery.js';
 import { renderBidHistory } from './bidHistory.js';
 import { auction } from './constants.js';
 
-export function renderItem(container, item, currentUser) {
+export function renderItem(container, item, currentUser, bids) {
     const card = document.createElement("div");
     card.id = `item-${item.id}`;
     card.className = "item-card";
@@ -26,23 +27,34 @@ export function renderItem(container, item, currentUser) {
     prevButton.onclick = () => prevImage(item.id);
 
     const img = document.createElement("img");
-    img.src = firstImage
-    img.alt = item.title;
-    img.id = `img-${item.id}`;
+    if (bids.includes(item.id)) {
+        // no picture for sold items
+        setImageIfExists(img, "../images/sold.png")
+        img.alt = "SOLD";
+        img.id = `img-${item.id}`;
+        imgGallery.appendChild(img)
+    }
+    else {
+        setImageIfExists(img, firstImage)
+        img.alt = item.title;
+        img.id = `img-${item.id}`;
 
-    const nextButton = document.createElement("button");
-    nextButton.className = "next-btn";
-    nextButton.textContent = ">";
-    nextButton.onclick = () => nextImage(item.id);
+        const nextButton = document.createElement("button");
+        nextButton.className = "next-btn";
+        nextButton.textContent = ">";
+        nextButton.onclick = () => nextImage(item.id);
 
-    imgGallery.appendChild(img)
+        imgGallery.appendChild(img)
 
-    const imgGalleryBtns = document.createElement("div");
-    imgGalleryBtns.appendChild(prevButton)
-    imgGalleryBtns.appendChild(nextButton)
+        const imgGalleryBtns = document.createElement("div");
+        imgGalleryBtns.appendChild(prevButton)
+        imgGalleryBtns.appendChild(nextButton)
 
-    if (item.image_urls.length > 1) {
-        imgGallery.appendChild(imgGalleryBtns)
+        if (item.image_urls) {
+            if (item.image_urls.length > 1) {
+               imgGallery.appendChild(imgGalleryBtns)
+            }
+        }
     }
 
     const title = document.createElement("h3");
@@ -141,25 +153,6 @@ export function renderItem(container, item, currentUser) {
     return card;
 }
 
-window.checkBuyNow = async function(item) {
-    const { data: bids, error: bidsError } = await supabase
-        .from("bids")
-        .select("amount")
-        .eq("item_id", item.id)
-        .eq("amount", item.buy_now);
-    if (bidsError) {
-        console.error("Error retrieving current bids:", bidsError);
-        alert("❌ Something went wrong. Try again.");
-        return;
-    }
-
-    // Check if there was a successful bid at the buy now price
-    if (bids.length > 0) {
-        const buyNow = document.getElementById(`item-buynow-${item.id}`)
-        buyNow.textContent = "SOLD";
-    }
-}
-
 window.placeBuyNow = async function(id, card, price, seller_name) {
     const user = await authUser();
 
@@ -169,7 +162,12 @@ window.placeBuyNow = async function(id, card, price, seller_name) {
     }
 
     // Close the auction and update bid history
-    await updateBidTable(user, price, id);
+    const success = await updateBidTable(user, price, id);
+    if (!success) {
+        console.warn("Bid update failed. Aborting buy now.");
+        alert("❌ Something went wrong. Please contact site admin!")
+        return;
+    }
 
     // Update end time in Supabase
     const timestamptz = new Date().toISOString();
@@ -219,7 +217,12 @@ window.placeBid = async function(id, card) {
     }
 
     // Update bid table
-    updateBidTable(user, bidValue, id);
+    const success = await updateBidTable(user, bidValue, id);
+    if (!success) {
+        console.warn("Bid update failed. Aborting buy now.");
+        alert("❌ Something went wrong. Please contact site admin!")
+        return;
+    }
     
     // Update UI
     renderBidHistory(id, card, user);
@@ -249,7 +252,7 @@ export async function updateBidTable(user, bidValue, id) {
 
     if (!token) {
         alert("❌ Please complete the hCaptcha by logging out and in again.");
-        return;
+        return false;
     }
     
     const bidder = user?.email
@@ -259,7 +262,7 @@ export async function updateBidTable(user, bidValue, id) {
     else {
         console.error("Problem retrieving user email.");
         alert("❌ Please sign up or log in.");
-        return;
+        return false;
     }
     
     // Check if there is already a bid at this price
@@ -271,13 +274,13 @@ export async function updateBidTable(user, bidValue, id) {
     if (bidsError) {
         console.error("Error retrieving current bids:", bidsError);
         alert("❌ Something went wrong. Try again.");
-        return;
+        return false;
     }
 
     if (bids.length > 0) {
         console.warn("There is already a bid at this amount.");
         alert("🚫 Someone already placed this exact bid. Try a different amount.");
-        return;
+        return false;
     }
 
     // Update bid in Supabase
@@ -289,7 +292,7 @@ export async function updateBidTable(user, bidValue, id) {
     if (updateError) {
         console.error("Error updating bid:", updateError);
         alert("❌ Failed to update item.");
-        return;
+        return false;
     }
     
     const { error: insertError } = await supabase.from("bids").insert([{
@@ -302,18 +305,19 @@ export async function updateBidTable(user, bidValue, id) {
     if (insertError) {
         console.error("Error inserting bid:", insertError);
         alert("❌ Failed to save bid. Try again.");
-        return;
+        return false;
     }
+
+    return true;
 }
 
 // 🎨 Render auction items to the page
-export function renderItems(items, currentUser) {
+export function renderItems(items, currentUser, bids) {
     const container = document.getElementById("items-container");
     container.innerHTML = ""; // Clear old items
   
     items.forEach(item => {
-        renderItem(container, item, currentUser)
-        checkBuyNow(item)
+        renderItem(container, item, currentUser, bids)
     });
 }
 

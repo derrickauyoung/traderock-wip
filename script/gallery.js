@@ -20,11 +20,25 @@ export function prevImage(itemId) {
     updateGalleryImage(itemId);
 }
 
+export function setImageIfExists(imageElement, url) {
+    const testImg = new Image();
+    testImg.onload = function () {
+        // Image exists
+        imageElement.src = url;
+    };
+    testImg.onerror = function () {
+        // Image does not exist
+        console.warn("Image not; found:", url)
+        imageElement.src = "../images/placeholder.png";
+    };
+    testImg.src = url;
+}
+
 export function updateGalleryImage(itemId) {
     const imgEl = document.getElementById(`img-${itemId}`);
     const images = itemGalleryImages[itemId];
     const index = itemGalleryIndex[itemId];
-    if (imgEl && images && images[index]) {
-        imgEl.src = images[index];
+    if (imgEl && images && images[index]) {    
+        setImageIfExists(imgEl, images[index]);
     }
 }
