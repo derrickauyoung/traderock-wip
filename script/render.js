@@ -28,8 +28,9 @@ export function renderItem(container, item, currentUser, bids) {
 
     const img = document.createElement("img");
     if (bids.includes(item.id)) {
+        const base = location.hostname === "localhost" ? "" : "/traderock";
         // no picture for sold items
-        setImageIfExists(img, "../images/sold.png")
+        setImageIfExists(img, `${base}/images/sold.png`)
         img.alt = "SOLD";
         img.id = `img-${item.id}`;
         imgGallery.appendChild(img)

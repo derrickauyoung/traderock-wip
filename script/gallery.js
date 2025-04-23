@@ -29,7 +29,8 @@ export function setImageIfExists(imageElement, url) {
     testImg.onerror = function () {
         // Image does not exist
         console.warn("Image not; found:", url)
-        imageElement.src = "../images/placeholder.png";
+        const base = location.hostname === "localhost" ? "" : "/traderock";
+        imageElement.src = `${base}/images/placeholder.png`;
     };
     testImg.src = url;
 }
