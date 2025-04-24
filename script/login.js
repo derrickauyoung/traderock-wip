@@ -1,5 +1,4 @@
 import { supabase } from './supabaseClient.js';
-import { verifyCaptcha } from './verify-captcha.js';
 import { requestCaptchaToken } from "./captcha.js";
 
 document.getElementById("login-btn").addEventListener("click", async () => {
