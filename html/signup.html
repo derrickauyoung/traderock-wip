@@ -16,17 +16,12 @@
     <script type="module" src="../script/signup.js"></script>
     <link rel="icon" href="favicon.ico" type="image/x-icon" />
     <link rel="stylesheet" href="../style.css" />
+    <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
 </head>
 <body class="login-body">
     <h2>Welcome to <strong>L-B-Yay</strong>.</h2>
     <h2>Create an Account</h2>
-    <form id="captcha-form">
-        <!-- your form fields -->
-        <div class="h-captcha" data-sitekey="e3f66718-0606-4dc0-ae0c-fd44270a8f62"></div>
-        <button class="captcha-btn" type="submit">Submit</button>
-        <p id="captcha-status"></p>
-    </form>
-    <script src="https://hcaptcha.com/1/api.js" async defer></script>
+    
     <input class="login-input" type="email" id="email" placeholder="Email" required />
     <input class="login-input" type="password" id="password" placeholder="Password (6+ chars)" required />
     <button id="signup-btn" class="login-btn">Sign Up</button>
@@ -35,5 +30,19 @@
 
     <p class="login-message" id="message"></p>
     <p class="login-error" id="error"></p>
+
+    <!-- CAPTCHA Modal -->
+    <div
+        id="captcha-modal"
+        class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden z-50"
+        aria-hidden="true"
+        style="display: none;"
+    >
+        <div class="bg-white p-4 rounded-xl shadow-xl w-96">
+        <h2 class="text-lg font-semibold mb-2">Please verify you're human</h2>
+        <div id="captcha-container" class="mb-2"></div>
+        <button id="captcha-close-btn" class="text-sm text-blue-500 hover:underline mt-2">Cancel</button>
+        </div>
+    </div>
 </body>
 </html>
