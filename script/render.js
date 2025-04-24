@@ -9,7 +9,7 @@ import {
 } from './gallery.js';
 import { renderBidHistory } from './bidHistory.js';
 import { auction } from './constants.js';
-import { getValidCaptchaToken } from './verify-captcha.js';
+import { requestCaptchaToken } from './captcha.js';
 
 export function renderItem(container, item, currentUser, bids) {
     const card = document.createElement("div");
@@ -250,7 +250,7 @@ export async function authUser() {
 
 export async function updateBidTable(user, bidValue, id) {
     // Get hCaptcha token from the widget
-    const token = await getValidCaptchaToken();
+    const token = await requestCaptchaToken();
 
     if (!token) {
         return false;

@@ -90,17 +90,26 @@ function closeModal() {
 }
 
 async function verifyCaptcha(token) {
-  const isLocalhost = location.hostname === "localhost";
-  const functionUrl = isLocalhost
-      ? "http://localhost:8888/.netlify/functions/verify-captcha"
-      : "/.netlify/functions/verify-captcha";
-
-  const response = await fetch(functionUrl, {
+    const isLocalhost = location.hostname === "localhost";
+  
+    const functionUrl = isLocalhost
+      ? "http://localhost:54321/functions/v1/verify-captcha" // Local Supabase dev server
+      : "https://napmuiqctvbegldujfbb.supabase.co/functions/v1/verify-captcha"; // Production
+  
+    const res = await fetch(functionUrl, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ token }),
-  });
-
-  const result = await response.json();
-  return result.success === true;
-}
+      headers: {
+        "Content-Type": "application/json",
+      }
+    });
+  
+    const result = await res.json();
+    console.log("Captcha verification result:", result);
+  
+    if (!res.ok) {
+      throw new Error(`Captcha failed: ${JSON.stringify(result)}`);
+    }
+  
+    return result.success;
+  }
