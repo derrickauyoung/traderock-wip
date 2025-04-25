@@ -20,7 +20,8 @@ async function checkLogin() {
     const { data: { user } } = await supabase.auth.getUser();
 
     if (user) {
-      window.location.href = "index.html"; // or your homepage
+      const basePath = window.location.pathname.split("/")[1];
+      window.location.href = `/${basePath}/index.html`;
     }
   }
 }
