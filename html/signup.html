@@ -7,7 +7,7 @@
         script-src 'self' https://js.hcaptcha.com https://hcaptcha.com https://cdn.jsdelivr.net;
         style-src 'self' 'unsafe-inline';
         img-src 'self' data: https:;
-        connect-src 'self' https://*.supabase.co wss://*.supabase.co;
+        connect-src 'self' http://localhost:54321 https://*.supabase.co wss://*.supabase.co;
         frame-src https://hcaptcha.com https://*.hcaptcha.com;
         object-src 'none';
         base-uri 'self';
@@ -20,13 +20,7 @@
 <body class="login-body">
     <h2>Welcome to <strong>L-B-Yay</strong>.</h2>
     <h2>Create an Account</h2>
-    <form id="captcha-form">
-        <!-- your form fields -->
-        <div class="h-captcha" data-sitekey="e3f66718-0606-4dc0-ae0c-fd44270a8f62"></div>
-        <button class="captcha-btn" type="submit">Submit</button>
-        <p id="captcha-status"></p>
-    </form>
-    <script src="https://hcaptcha.com/1/api.js" async defer></script>
+    
     <input class="login-input" type="email" id="email" placeholder="Email" required />
     <input class="login-input" type="password" id="password" placeholder="Password (6+ chars)" required />
     <button id="signup-btn" class="login-btn">Sign Up</button>
@@ -35,5 +29,7 @@
 
     <p class="login-message" id="message"></p>
     <p class="login-error" id="error"></p>
+
+    <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
 </body>
 </html>
