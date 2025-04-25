@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const { data: items, error } = await supabase
             .from("items")
             .select("*")
-            .order("id", { ascending: true });
+            .order("id", { ascending: false });
 
         if (error) {
             console.error("Error loading items:", error);
