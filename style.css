@@ -288,3 +288,126 @@ input[type="number"] {
   .seller-name {
     font-style: italic;
   }
+
+/* ===== Pagination Styles ===== */
+
+#pagination-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+#pagination-controls button {
+  background-color: #3B82F6; /* Tailwind's "blue-500" */
+  color: white;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+#pagination-controls button:hover {
+  background-color: #2563EB; /* Slightly deeper blue on hover */
+}
+
+#pagination-controls button:disabled {
+  background-color: #93C5FD; /* Light blue when disabled */
+  cursor: not-allowed;
+}
+
+#pagination-info {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #2563EB; /* Deep blue for text */
+}
+
+/* Optional: add a soft background to the entire pagination block */
+#pagination-controls {
+  padding: 10px;
+  background-color: #EFF6FF; /* lightest blue background */
+  border-radius: 8px;
+}
+
+/* Page number buttons */
+#pagination-numbers {
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  justify-content: center;
+}
+
+.page-button {
+  background-color: #dbeafe; /* light blue */
+  border: none;
+  padding: 5px 10px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.page-button:hover {
+  background-color: #60a5fa; /* brighter blue */
+  color: white;
+}
+
+.page-button.active {
+  background-color: #3b82f6; /* deep blue */
+  color: white;
+  font-weight: bold;
+}
+
+/* Ellipsis style */
+.ellipsis {
+  padding: 5px 10px;
+  font-size: 16px;
+  color: gray;
+}
+
+/* ✨ Fade-in animation */
+.fade-in {
+  animation: fadeIn 0.4s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Pagination number buttons */
+#pagination-numbers {
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+#pagination-numbers span {
+  color: gray;
+  font-size: 1.2rem;
+}
+
+#pagination-numbers button {
+  padding: 5px 10px;
+  font-size: 1rem;
+  background-color: #e0f0ff;
+  border: 1px solid #0077cc;
+  color: #0077cc;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#pagination-numbers button.active {
+  background-color: #0077cc;
+  color: white;
+}
+
+#pagination-numbers button:hover {
+  background-color: #b0e0ff;
+}
