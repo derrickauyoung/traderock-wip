@@ -6,6 +6,8 @@ const itemsPerPage = 8;
 let allItems = [];
 let bidItems = [];
 let user = [];
+let oldPrices = {};
+window.oldPrices = oldPrices;
 
 async function fetchItems() {
   const { data: items, error } = await supabase
@@ -36,6 +38,33 @@ async function fetchItems() {
   });
 
   renderPage();
+}
+
+async function fetchOldPrices() {
+    const { data: prices, error } = await supabase
+        .from("price_history")
+        .select("item_id, old_price, changed_at");
+
+    if (error) {
+        console.error("Error fetching old prices:", error);
+        alert("❌ Something went wrong fetching prices.");
+        return;
+    }
+
+    // Find latest old_price for each item
+    const latestPrices = {};
+
+    prices.forEach(price => {
+        const existing = latestPrices[price.item_id];
+        if (!existing || new Date(price.changed_at) > new Date(existing.changed_at)) {
+            latestPrices[price.item_id] = price;
+        }
+    });
+
+    // Now map it into the global oldPrices object
+    for (const [itemId, priceInfo] of Object.entries(latestPrices)) {
+        window.oldPrices[itemId] = priceInfo.old_price;
+    }
 }
 
 async function getBids() {
@@ -163,7 +192,7 @@ function renderPage() {
     }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
 
     supabase.auth.getSession().then(({ data: { session } }) => {
         if (!session) {
@@ -227,5 +256,6 @@ document.addEventListener("DOMContentLoaded", () => {
     window.history.replaceState({}, document.title, window.location.pathname);
 
     // Load items on page load
+    await fetchOldPrices();
     fetchItems();
 });

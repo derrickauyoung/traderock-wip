@@ -87,12 +87,27 @@ export function renderItem(container, item, currentUser, bids) {
     const bidSection = document.createElement("div");
     bidSection.className = "bid-section";
 
-    // Buy now price
-    const buyNow = document.createElement("div");
-    buyNow.id = `item-buynow-${item.id}`;
-    buyNow.className = 'item-buynow';
-    buyNow.textContent = `$${item.buy_now}`;
-    bidSection.appendChild(buyNow);
+    const priceDiv = document.createElement('div');
+    priceDiv.className = 'price-section';
+
+    if (window.oldPrices[item.id] && window.oldPrices[item.id] !== item.buy_now) {
+        const oldPriceSpan = document.createElement('span');
+        oldPriceSpan.className = 'old-price';
+        oldPriceSpan.textContent = `$${window.oldPrices[item.id]}`;
+
+        const currentPriceSpan = document.createElement('span');
+        currentPriceSpan.className = 'current-price';
+        currentPriceSpan.textContent = `$${item.buy_now}`;
+
+        priceDiv.appendChild(oldPriceSpan);
+        priceDiv.appendChild(currentPriceSpan);
+    } else {
+        const currentPriceSpan = document.createElement('span');
+        currentPriceSpan.className = 'current-price';
+        currentPriceSpan.textContent = `$${item.buy_now}`;
+        priceDiv.appendChild(currentPriceSpan);
+    }
+    bidSection.appendChild(priceDiv);
 
     const datenow = Date.now();
     const timestamptzMillis = new Date(item.end_date).getTime();
