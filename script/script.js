@@ -11,7 +11,7 @@ async function fetchItems() {
   const { data: items, error } = await supabase
     .from('items')
     .select('*')
-    .order('id', { ascending: false });
+    .order('updated_at', { ascending: false });
 
   if (error) {
     console.error('Error fetching items:', error.message);
