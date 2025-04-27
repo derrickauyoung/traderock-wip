@@ -5,6 +5,7 @@ let currentPage = 1;
 const itemsPerPage = 8;
 let allItems = [];
 let bidItems = [];
+let totalItems = null;
 let user = [];
 let oldPrices = {};
 window.oldPrices = oldPrices;
@@ -24,6 +25,8 @@ async function fetchItems() {
 
   allItems = items;
   bidItems = await getBids()
+  const nonSoldItems = allItems.filter(item => !bidItems.includes(item.id));
+  totalItems = nonSoldItems.length;
   user = supabase_user
 
   // 🌟 Push "sold" items (items with a matching bid) to the end
@@ -133,7 +136,7 @@ function renderPage() {
     // ✨ Update pagination info
     if (paginationInfo) {
         if (totalPages > 1) {
-            paginationInfo.textContent = `Page ${currentPage} of ${totalPages} (Total items: ${allItems.length})`;
+            paginationInfo.textContent = `Page ${currentPage} of ${totalPages} (Total items: ${totalItems})`;
         } else {
             paginationInfo.textContent = '';
         }
