@@ -411,3 +411,14 @@ input[type="number"] {
 #pagination-numbers button:hover {
   background-color: #b0e0ff;
 }
+
+.old-price {
+  text-decoration: line-through;
+  color: rgb(151, 151, 151);
+  margin-right: 8px;
+}
+
+.current-price {
+  font-weight: bold;
+  color: #15974b; /* a nice green */
+}
