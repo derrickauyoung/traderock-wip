@@ -51,8 +51,6 @@ async function fetchOldPrices() {
         return;
     }
 
-    console.log("Fetched Price History Data:", prices);
-
     // Find latest old_price for each item
     const latestPrices = {};
 
@@ -67,8 +65,6 @@ async function fetchOldPrices() {
     for (const [itemId, priceInfo] of Object.entries(latestPrices)) {
         window.oldPrices[itemId] = priceInfo.old_price;
     }
-
-    console.log("Loaded Old Prices: ", window.oldPrices);
 }
 
 async function getBids() {

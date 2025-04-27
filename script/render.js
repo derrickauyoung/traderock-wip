@@ -90,8 +90,6 @@ export function renderItem(container, item, currentUser, bids) {
     const priceDiv = document.createElement('div');
     priceDiv.className = 'price-section';
 
-    console.log("Old Prices: ", window.oldPrices);
-
     if (window.oldPrices[item.id] && window.oldPrices[item.id] !== item.buy_now) {
         const oldPriceSpan = document.createElement('span');
         oldPriceSpan.className = 'old-price';
