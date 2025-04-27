@@ -90,7 +90,9 @@ export function renderItem(container, item, currentUser, bids) {
     const priceDiv = document.createElement('div');
     priceDiv.className = 'price-section';
 
-    if (window.oldPrices[item.id] && window.oldPrices[item.id] !== item.buy_now) {
+    const oldPrice = getOldPrice(item.id);
+
+    if (oldPrice !== undefined && oldPrice !== item.buy_now) {
         const oldPriceSpan = document.createElement('span');
         oldPriceSpan.className = 'old-price';
         oldPriceSpan.textContent = `$${window.oldPrices[item.id]}`;
@@ -168,6 +170,12 @@ export function renderItem(container, item, currentUser, bids) {
     container.appendChild(card);
 
     return card;
+}
+
+function getOldPrice(itemId) {
+    const oldPrices = window.oldPrices || {};
+    const oldprice = oldPrices[itemId?.toString()]
+    return oldprice;
 }
 
 window.placeBuyNow = async function(id, card, price, seller_name) {
